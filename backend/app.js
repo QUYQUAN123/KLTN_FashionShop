@@ -36,9 +36,9 @@ app.use(
 );
 
 cloudinary.config({
-  cloud_name: "dfbo1ecn9",
-  api_key: "937221934331221",
-  api_secret: "0PalAWB6WXyk7srvsbPxNosjvp0",
+  cloud_name: "dyeelociz",
+  api_key: "364936485876826",
+  api_secret: "IZXEIu4kSYwbjpyImZDInUbqzhI",
 });
 
 const userSockets = new Map();
