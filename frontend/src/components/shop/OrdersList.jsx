@@ -114,7 +114,7 @@ const OrdersList = () => {
         actions: (
           <Fragment>
             <Link
-              to={`/shop/order/${order._id}`}
+              to={`/shopkeeper/order/${order._id}`}
               className="btn btn-primary py-1 px-2"
             >
               <i className="fa fa-eye"></i>
@@ -154,7 +154,7 @@ const OrdersList = () => {
       <MetaData title={"All Orders"} />
       <ToastContainer />
       <div className="sidebar-content-container">
-        <div className="manage-product-container">
+        <div className="manage-shop-container">
           <Fragment>
             <h1
               className="my-4"

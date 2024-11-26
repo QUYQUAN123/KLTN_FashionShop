@@ -125,3 +125,37 @@ exports.deleteShopSection = catchAsyncErrors(async (req, res, next) => {
     success: true,
   });
 });
+
+
+
+exports.getAllProductsByShop = catchAsyncErrors(async (req, res, next) => {
+  const shopId = req.params.shopId;
+  const products = await Product.find({ shopId })
+    .lean() 
+    .populate("category") 
+    .sort({ createdAt: -1 }); 
+
+  res.status(200).json({
+    success: true,
+    products,
+  });
+});
+
+
+exports.getShopById = catchAsyncErrors(async (req, res, next) => {
+  const { shopId } = req.params; // Lấy shopId từ URL params
+
+  // Tìm cửa hàng theo shopId
+  const shop = await Shop.findById(shopId)
+    .populate("sections.categoryId") 
+    .lean();
+
+  if (!shop) {
+    return next(new ErrorHandler("Shop not found", 404)); 
+  }
+
+  res.status(200).json({
+    success: true,
+    shop,
+  });
+});

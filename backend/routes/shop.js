@@ -5,6 +5,8 @@ const {
   getShop,
   updateShopSection,
   deleteShopSection,
+  getShopById,
+  getAllProductsByShop
 } = require("../controllers/shopController");
 const { isAuthenticatedUser, authorizeRoles } = require("../middlewares/auth");
 const router = express.Router();
@@ -22,5 +24,13 @@ router
   .route("/shop/section")
   .put(isAuthenticatedUser, authorizeRoles("shopkeeper"), updateShopSection)
   .delete(isAuthenticatedUser, authorizeRoles("shopkeeper"), deleteShopSection);
+
+  router
+  .route("/shop/:shopId")
+  .get(getShopById);
+
+router
+  .route("/shop/:shopId/products")
+  .get(getAllProductsByShop);
 
 module.exports = router;

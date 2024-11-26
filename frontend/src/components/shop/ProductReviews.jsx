@@ -39,14 +39,14 @@ const ProductReviews = () => {
   const resPerPage = 10; // Số lượng kết quả mỗi trang
   useEffect(() => {
     console.log("shop._id", shop._id);
-    dispatch(getShopProducts("SHOP_1723385468288_gf585", approved, keyword, currentPage, itemsPerPage));
+    dispatch(getShopProducts(shop._id, approved, keyword, currentPage, itemsPerPage));
     if (productId) {
       dispatch(getReviewsInProduct(productId, currentPageReviews, resPerPage));
     }
     if (error) {
       toast.error(error);
       dispatch(clearErrors());
-      history("/shop/products");
+      history("/shopkeeper/products");
     }
   }, [dispatch, error, deleteError, isDeleted, history, approved, keyword, currentPageReviews, currentPage, productId]);
 
@@ -215,7 +215,7 @@ const ProductReviews = () => {
       <MetaData title={"Product Reviews"} />
       <ToastContainer />
       <div className="sidebar-content-container">
-        <div className="manage-product-container">
+        <div className="manage-shop-container">
           <h1 className="my-4" style={{ fontSize: "40px", fontWeight: "bold", textAlign: "center" }}>
             Quản Lý Đánh Giá
           </h1>

@@ -27,7 +27,7 @@ const Header = () => {
   const prevScrollY = useRef(0);
   const [anchorE2, setAnchorE2] = useState(null);
   const openCart = Boolean(anchorE2);
-  const categories = ["Trousers", "Shirt", "Dress", "Shoe"];
+
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [homeClick, setHomeClick] = useState(false);
@@ -183,7 +183,7 @@ const Header = () => {
               <Link to="/" style={{ textDecoration: "none" }}>
                 <div className="header-logo-container">
                   <h1 className="header-logo-begin">SHOP</h1>
-                  <h1 className="header-logo-end">DEE</h1>
+                  <h1 className="header-logo-end">Go</h1>
                 </div>
               </Link>
             </div>

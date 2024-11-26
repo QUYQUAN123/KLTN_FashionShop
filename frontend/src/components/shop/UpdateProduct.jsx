@@ -85,7 +85,7 @@ const UpdateProduct = () => {
     }
 
     if (isUpdated) {
-      history("/shop/products");
+      history("/shopkeeper/products");
 
       toast.success("Product updated successfully");
 

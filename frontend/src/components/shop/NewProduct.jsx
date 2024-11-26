@@ -1,4 +1,5 @@
 import React, { Fragment, useState, useEffect, useCallback } from "react";
+import { useLocation } from "react-router-dom";
 
 import MetaData from "../layout/MetaData";
 import Sidebar from "./Sidebar";
@@ -19,7 +20,8 @@ import { getCategoryAll } from "../../actions/categoryActions";
 const NewProduct = () => {
   const history = useNavigate();
   const dispatch = useDispatch();
-
+  const location = useLocation();
+  
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
@@ -112,6 +114,7 @@ const NewProduct = () => {
     }
 
     const formData = new FormData();
+    formData.set("shopId",shopId);
     formData.set("name", name);
     formData.set("price", price);
     formData.set("description", description);
@@ -273,6 +276,14 @@ const NewProduct = () => {
     setImagesPreview(newImages);
     setImages(newImagesFiles);
   };
+
+  const shopId = location.state?.shopId;
+  useEffect(() => {
+    if (!shopId) {
+      console.error("Shop ID không tồn tại!");
+    }
+  }, [shopId]);
+  console.log("shop.shopId",shopId);
 
   return (
     <Fragment>

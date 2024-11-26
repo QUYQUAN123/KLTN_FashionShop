@@ -193,7 +193,7 @@ const Dashboard = () => {
                       >
                         <Link
                           className="card-footer btn btn-primary"
-                          to="/shop/products"
+                          to="/shopkeeper/products"
                           style={{
                             width: "100%",
                             display: "block",
@@ -256,7 +256,7 @@ const Dashboard = () => {
                       >
                         <Link
                           className="card-footer btn btn-primary"
-                          to="/shop/orders"
+                          to="/shopkeeper/orders"
                           style={{
                             width: "100%",
                             display: "block",
@@ -319,7 +319,7 @@ const Dashboard = () => {
                       >
                         <Link
                           className="card-footer btn btn-primary"
-                          to="/shop/users"
+                          to="/shopkeeper/users"
                           style={{
                             width: "100%",
                             display: "block",

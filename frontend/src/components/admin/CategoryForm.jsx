@@ -121,7 +121,7 @@ const CategoryForm = ({ onClose, data }) => {
         onClick={(e) => handlerOverlayClick(e)}
       >
         <form onSubmit={submitHandler} className="NewCategory-form-box">
-          <h1 className="NewCategory-heading">Tạo Danh Mục</h1>
+          <h1 className="NewCategory-heading">Danh Mục</h1>
           <div className="NewCategory-form-group">
             <label
               className={`upload-form `}

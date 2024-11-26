@@ -21,20 +21,20 @@ const { isAuthenticatedUser, authorizeRoles } = require("../middlewares/auth");
 
 router
   .route("/shop/product/new")
-  .post(isAuthenticatedUser, authorizeRoles("admin"), newProduct);
+  .post(isAuthenticatedUser, authorizeRoles("shopkeeper", "admin"), newProduct);
 
 router
   .route("/shop/uploadImages")
-  .post(isAuthenticatedUser, authorizeRoles("shopkeeper"), uploadImages);
+  .post(isAuthenticatedUser, authorizeRoles("shopkeeper", "admin"), uploadImages);
 
 router
   .route("/shop/product/:id")
-  .put(isAuthenticatedUser, authorizeRoles("admin"), updateProduct)
-  .delete(isAuthenticatedUser, authorizeRoles("admin"), deleteProduct);
+  .put(isAuthenticatedUser, authorizeRoles("shopkeeper", "admin"), updateProduct)
+  .delete(isAuthenticatedUser, authorizeRoles("shopkeeper", "admin"), deleteProduct);
 
 router
   .route("/shop/product/update/:id")
-  .put(isAuthenticatedUser, authorizeRoles("admin"), updateProductBasic);
+  .put(isAuthenticatedUser, authorizeRoles("shopkeeper", "admin"), updateProductBasic);
 
 router.route("/products").get(getProducts);
 router.route("/product/:id").get(getSingleProduct);

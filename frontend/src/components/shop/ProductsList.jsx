@@ -5,6 +5,7 @@ import Pagination from "react-js-pagination";
 import MetaData from "../layout/MetaData";
 import Loader from "../layout/Loader";
 import Sidebar from "./Sidebar";
+import { toast } from "react-toastify";
 
 import { getCategoryAll } from "../../actions/categoryActions";
 
@@ -39,7 +40,7 @@ const ProductsList = () => {
   const [approved, setApproved] = useState("");
   const [keyword, setKeyword] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-console.log("shop",shop);
+
   const {
     error: deleteError,
     isDeleted,
@@ -111,7 +112,7 @@ console.log("shop",shop);
     setApproved(e.target.value);
     setCurrentPage(1);
     dispatch(
-      getShopProducts(SHOP_1723385468288_gf585, e.target.value, keyword, 1)
+      getShopProducts(shop._id, e.target.value, keyword, 1)
     );
   };
   const setProducts = () => {
@@ -183,7 +184,7 @@ console.log("shop",shop);
             <Fragment>
               <div className="flex-horizontal">
                 <Link
-                  to={`/shop/product/${product._id}`}
+                  to={`/shopkeeper/product/${product._id}`}
                   className="btn btn-primary py-1 px-2"
                 >
                   <i className="fa fa-pencil"></i>
@@ -224,7 +225,7 @@ console.log("shop",shop);
     productData.set("approved", "pending");
     dispatch(updateProductBasic(id, productData));
   };
-  console.log("productsCount", productsCount);
+
   const deleteProductHandler = (id) => {
     dispatch(deleteProduct(id));
   };
@@ -232,7 +233,7 @@ console.log("shop",shop);
     <Fragment>
       <MetaData title={"All Products"} />
       <div className="sidebar-content-container">
-        <div className="manage-product-container">
+        <div className="manage-shop-container">
           <h1
             className="my-4"
             style={{
@@ -244,10 +245,12 @@ console.log("shop",shop);
             Tất Cả Sản Phẩm{" "}
           </h1>
           <div>
-            <Link
-              to="/shopkeeper/product"
-              className="product-add-btn-container"
-            >
+          <Link
+            to="/shopkeeper/product"
+            state={{ shopId: shop._id }} // Truyền shopId qua state
+            className="product-add-btn-container"
+          >
+            
               <i className="fa fa-plus product-add-btn"></i>
               <p>Thêm Sản Phẩm </p>
             </Link>

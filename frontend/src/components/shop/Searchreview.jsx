@@ -41,7 +41,7 @@ const ProductsList = () => {
 
     if (isDeleted) {
       toast.error("Product deleted successfully");
-      history("/shop/products");
+      history("/shopkeeper/products");
       dispatch({ type: DELETE_PRODUCT_RESET });
     }
   }, [dispatch, error, deleteError, isDeleted, history]);
@@ -72,7 +72,7 @@ const ProductsList = () => {
         actions: (
           <Fragment>
             <Link
-              to={`/shop/product/${product._id}`}
+              to={`/shopkeeper/product/${product._id}`}
               className="btn btn-primary py-1 px-2"
             >
               <i className="fa fa-pencil"></i>

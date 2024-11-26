@@ -63,10 +63,6 @@ const Home = () => {
         </div>
       )}
  
-
-
-
-
         <div className="home-form">
           <div className="home-component">
             <h1>Danh Mục Sản Phẩm</h1>

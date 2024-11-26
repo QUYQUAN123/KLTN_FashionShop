@@ -1106,6 +1106,103 @@ body {
   color: black;
 }
 
+/* sidebar shop */
+.sidebar-wrapper-shop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px; 
+  height: 100vh; /* Chiều cao toàn màn hình */
+  background-color: #f8f9fa; /* Nền Sidebar */
+  z-index: 1000; /* Ưu tiên hiển thị */
+  overflow-y: auto; /* Cuộn dọc nếu nội dung dài */
+}
+
+
+.Centre-container-shop {
+  margin-left: 250px; 
+  padding: 20px; 
+  width: calc(100% ); 
+  min-height: 100vh; 
+  background-color: white; 
+  overflow: auto; 
+}
+
+
+
+.sidebar-wrapper-shop i {
+  min-width: 20px;
+}
+
+.sidebar-wrapper-shop li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.sidebar-wrapper-shop li:hover {
+  background-color: #ebebf0;
+}
+
+.sidebar-wrapper-shop ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.sidebar-element-container-shop {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+
+.App-container-shop {
+  display: flex;
+  justify-content: flex-start;
+}
+
+
+
+.App-form-shop {
+  width: 100%;
+  height: 100%;
+  animation: fade-in 1s ease-out;
+}
+.sidebar-form-shop {
+  color: white;
+  width: 100%;
+}
+
+.sidebar-element-shop {
+  text-decoration: none;
+  height: 100%;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: black;
+  font-size: 15px;
+  min-width: max-content;
+}
+
+.sidebar-element-shop.active {
+  background-color: #ebebf0;
+}
+
+.sidebar-element-shop:hover {
+  text-decoration: none;
+  color: black;
+}
+.App-container-shop {
+  display: flex;
+  width: 100vw; /* Chiều rộng toàn bộ màn hình */
+  height: 100vh; /* Chiều cao toàn bộ màn hình */
+  overflow: hidden; /* Ẩn nội dung tràn */
+}
+
+
 /* Products List Admin */
 #products_table .btn {
   padding: 0.2rem 0.5rem;
@@ -5403,7 +5500,6 @@ body {
   align-self: center;
 }
 
-/* ManageCategories.jsx */
 .admin-layout {
   padding: 20px;
   display: flex;
