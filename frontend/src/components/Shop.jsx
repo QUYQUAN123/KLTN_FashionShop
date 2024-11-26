@@ -54,6 +54,9 @@ const Shop = () => {
   }, [category, keyword]);
   const selectedCategoryName = categories.find(cat => cat._id === selectedCategory)?.vietnameseName || '';
 
+
+  console.log("category",category);
+  console.log("keyword",keyword);
   useEffect(() => {
     window.scrollTo(0, 0);
     if (currentPage) {

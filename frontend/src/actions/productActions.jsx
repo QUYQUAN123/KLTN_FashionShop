@@ -52,7 +52,10 @@ export const getProducts =
   }) =>
   async (dispatch) => {
     try {
+      console.log("keyword api",keyword);
       dispatch({ type: ALL_PRODUCTS_REQUEST });
+
+     
 
       let link = `/api/v1/products?keyword=${keyword}&page=${currentPage}&limit=${resPerPage}&price[lte]=${price[1]}&price[gte]=${price[0]}&category=${category}&ratings[gte]=${rating}`;
       const config = {
@@ -115,7 +118,8 @@ export const uploadSectionImages = (image) => async (dispatch) => {
 
 export const newProduct = (productData) => async (dispatch) => {
   try {
-    console.log("productData", productData);
+   
+    
     dispatch({ type: NEW_PRODUCT_REQUEST });
 
     const config = {

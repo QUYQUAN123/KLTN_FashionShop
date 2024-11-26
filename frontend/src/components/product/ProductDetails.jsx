@@ -105,6 +105,7 @@ const ProductDetails = () => {
     }
 
     const item = {
+      shopId: product.shopId,
       product: product._id,
       variant: variant._id,
       inventory: variant.inventory[inventoryIndex]._id,
@@ -116,6 +117,7 @@ const ProductDetails = () => {
       quantity: quantity,
       size: size,
     };
+    console.log("product.shopId",product.shopId);
 
     if (cartItems.length > 0) {
       const check = await dispatch(getUserCartProduct(item));
@@ -188,6 +190,8 @@ const ProductDetails = () => {
 
     dispatch(newReview(formData));
   };
+
+  
 
   return (
     <Fragment>
