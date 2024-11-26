@@ -60,7 +60,6 @@ function App() {
   return (
     <Fragment>
       <SocketManager />
-      <div className={"App-container"}>
         <div className="App-form">
           <ScrollToTop />
           <Routes>
@@ -160,7 +159,6 @@ function App() {
             />
           </Routes>
         </div>
-      </div>
     </Fragment>
   );
 }

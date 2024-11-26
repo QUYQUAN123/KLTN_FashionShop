@@ -25,7 +25,8 @@ const OrdersList = () => {
   const [status, setStatus] = useState("");
   const [resPerPage] = useState(10);
 
-  const { loading, error, orders, totalOrders, filteredOrdersCount } = useSelector((state) => state.allOrders);
+  const { loading, error, orders, totalOrders, filteredOrdersCount } =
+    useSelector((state) => state.allOrders);
   const { isDeleted } = useSelector((state) => state.order);
 
   const statusTranslations = {
@@ -37,7 +38,12 @@ const OrdersList = () => {
   };
 
   useEffect(() => {
-    console.log("Fetching orders with:", { currentPage, keyword, status, resPerPage });
+    console.log("Fetching orders with:", {
+      currentPage,
+      keyword,
+      status,
+      resPerPage,
+    });
     dispatch(allOrders(currentPage, keyword, status, resPerPage));
 
     if (error) {
@@ -151,92 +157,86 @@ const OrdersList = () => {
 
   return (
     <Fragment>
-      <MetaData title={"All Orders"} />
       <ToastContainer />
-      <div className="sidebar-content-container">
-        <div className="manage-shop-container">
-          <Fragment>
-            <h1
-              className="my-4"
-              style={{
-                fontSize: "40px",
-                fontWeight: "bold",
-                textAlign: "center",
-              }}
-            >
-              Tất Cả Đơn Hàng
-            </h1>
+      <div className="content-container">
+        <h1
+          className="my-4"
+          style={{
+            fontSize: "40px",
+            fontWeight: "bold",
+            textAlign: "center",
+          }}
+        >
+          Tất Cả Đơn Hàng
+        </h1>
 
-            <form
-              onSubmit={handleSearch}
+        <form
+          onSubmit={handleSearch}
+          style={{
+            display: "flex",
+            marginLeft: "5rem",
+            gap: "10px",
+            marginBottom: "20px",
+          }}
+        >
+          <input
+            type="text"
+            placeholder="Tìm kiếm đơn hàng..."
+            value={keyword}
+            onChange={(e) => setKeyword(e.target.value)}
+            style={{
+              padding: "10px",
+              borderRadius: "5px",
+              border: "1px solid #ccc",
+            }}
+          />
+          <select
+            value={status}
+            onChange={handleStatusChange}
+            style={{
+              padding: "10px",
+              borderRadius: "5px",
+              border: "1px solid #ccc",
+            }}
+          >
+            <option value="">Tất cả trạng thái</option>
+            <option value="Processing">Xử Lý</option>
+            <option value="canceled">Đơn đã Hủy</option>
+            <option value="Order Confirmed">Xác Nhận</option>
+            <option value="Shipping">Giao Hàng</option>
+            <option value="Delivered">Hoàn Thành</option>
+          </select>
+        </form>
+
+        {loading ? (
+          <Loader />
+        ) : (
+          <Fragment>
+            <DataTable data={setOrders()} />
+            <div
+              className="d-flex justify-content-center mt-5"
               style={{
                 display: "flex",
-                marginLeft: "5rem",
-                gap: "10px",
-                marginBottom: "20px",
+                justifyContent: "center",
+                marginBottom: "2rem",
               }}
             >
-              <input
-                type="text"
-                placeholder="Tìm kiếm đơn hàng..."
-                value={keyword}
-                onChange={(e) => setKeyword(e.target.value)}
-                style={{
-                  padding: "10px",
-                  borderRadius: "5px",
-                  border: "1px solid #ccc",
-                }}
+              <Pagination
+                activePage={currentPage}
+                itemsCountPerPage={resPerPage}
+                totalItemsCount={filteredOrdersCount}
+                onChange={handlePageChange}
+                nextPageText={"Next"}
+                prevPageText={"Prev"}
+                firstPageText={"First"}
+                lastPageText={"Last"}
+                itemClass="page-item"
+                linkClass="page-link"
+                pageRangeDisplayed={5}
               />
-              <select
-                value={status}
-                onChange={handleStatusChange}
-                style={{
-                  padding: "10px",
-                  borderRadius: "5px",
-                  border: "1px solid #ccc",
-                }}
-              >
-                <option value="">Tất cả trạng thái</option>
-                <option value="Processing">Xử Lý</option>
-                <option value="canceled">Đơn đã Hủy</option>
-                <option value="Order Confirmed">Xác Nhận</option>
-                <option value="Shipping">Giao Hàng</option>
-                <option value="Delivered">Hoàn Thành</option>
-              </select>
-              
-            </form>
-
-            {loading ? (
-              <Loader />
-            ) : (
-              <Fragment>
-                <DataTable data={setOrders()} />
-                <div
-                  className="d-flex justify-content-center mt-5"
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    marginBottom: "2rem",
-                  }}
-                >
-                  <Pagination
-                    activePage={currentPage}
-                    itemsCountPerPage={resPerPage}
-                    totalItemsCount={filteredOrdersCount}
-                    onChange={handlePageChange}
-                    nextPageText={"Next"}
-                    prevPageText={"Prev"}
-                    firstPageText={"First"}
-                    lastPageText={"Last"}
-                    itemClass="page-item"
-                    linkClass="page-link"
-                    pageRangeDisplayed={5}
-                  />
-                </div>
-              </Fragment>
-            )}
+            </div>
           </Fragment>
-        </div>
+        )}
       </div>
       {showModal && (
         <div className="delete-notify-container">

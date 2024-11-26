@@ -230,114 +230,104 @@ const ProductsList = () => {
     dispatch(deleteProduct(id));
   };
   return (
-    <Fragment>
-      <MetaData title={"All Products"} />
-      <div className="sidebar-content-container">
-        <div className="manage-shop-container">
-          <h1
-            className="my-4"
-            style={{
-              fontSize: "40px",
-              fontWeight: "bold",
-              textAlign: "center",
-            }}
-          >
-            Tất Cả Sản Phẩm{" "}
-          </h1>
-          <div>
-          <Link
-            to="/shopkeeper/product"
-            state={{ shopId: shop._id }} // Truyền shopId qua state
-            className="product-add-btn-container"
-          >
-            
-              <i className="fa fa-plus product-add-btn"></i>
-              <p>Thêm Sản Phẩm </p>
-            </Link>
-          </div>
-          <div>
-            <input
-              type="text"
-              placeholder="Tìm kiếm sản phẩm..."
-              value={keyword}
-              onChange={(e) => setKeyword(e.target.value)}
-              style={{
-                padding: "10px",
-                borderRadius: "5px",
-                border: "1px solid #ccc",
-                marginRight: "10px",
-              }}
-            />
-            <select
-              value={approved}
-              onChange={handleApprovedChange}
-              style={{
-                padding: "10px",
-                borderRadius: "5px",
-                border: "1px solid #ccc",
-              }}
-            >
-              {" "}
-              <option value="">Tất cả vai trò</option>
-              <option value="waiting">Chưa Gửi</option>
-              <option value="pending">Đang Xử Lý</option>
-              <option value="approved">Đã Duyệt</option>
-              <option value="rejected">Chưa Duyệt</option>
-            </select>
-          </div>
-          {loading ? (
-            <Loader />
-          ) : (
-            <Fragment>
-              <div className="table-responsive">
-                <table className="table table-bordered table-striped">
-                  <thead>
-                    <tr>
-                      {setProducts().columns.map((column, index) => (
-                        <th key={index}>{column.label}</th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {setProducts().rows.map((row, index) => (
-                      <tr key={index}>
-                        {Object.values(row).map((value, idx) => (
-                          <td key={idx}>{value}</td>
-                        ))}
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-              <div
-                className="d-flex justify-content-center mt-5"
-                style={{ marginBottom: "2rem" }}
-              >
-                <Pagination
-                  activePage={currentPage}
-                  itemsCountPerPage={10}
-                  totalItemsCount={productsCount}
-                  onChange={handlePageChange}
-                  nextPageText={"Next"}
-                  prevPageText={"Prev"}
-                  firstPageText={"First"}
-                  lastPageText={"Last"}
-                  itemClass="page-item"
-                  linkClass="page-link"
-                />
-              </div>
-            </Fragment>
-          )}
-        </div>
-        {show && (
-          <DeleteNotify
-            func={deleteProductHandler}
-            paras={[id]}
-            show={setShow}
-          />
-        )}
+    <div className="content-container">
+      <h1
+        className="my-4"
+        style={{
+          fontSize: "40px",
+          fontWeight: "bold",
+          textAlign: "center",
+        }}
+      >
+        Tất Cả Sản Phẩm{" "}
+      </h1>
+      <div>
+        <Link
+          to="/shopkeeper/product"
+          state={{ shopId: shop._id }} // Truyền shopId qua state
+          className="product-add-btn-container"
+        >
+          <i className="fa fa-plus product-add-btn"></i>
+          <p>Thêm Sản Phẩm </p>
+        </Link>
       </div>
-    </Fragment>
+      <div>
+        <input
+          type="text"
+          placeholder="Tìm kiếm sản phẩm..."
+          value={keyword}
+          onChange={(e) => setKeyword(e.target.value)}
+          style={{
+            padding: "10px",
+            borderRadius: "5px",
+            border: "1px solid #ccc",
+            marginRight: "10px",
+          }}
+        />
+        <select
+          value={approved}
+          onChange={handleApprovedChange}
+          style={{
+            padding: "10px",
+            borderRadius: "5px",
+            border: "1px solid #ccc",
+          }}
+        >
+          {" "}
+          <option value="">Tất cả vai trò</option>
+          <option value="waiting">Chưa Gửi</option>
+          <option value="pending">Đang Xử Lý</option>
+          <option value="approved">Đã Duyệt</option>
+          <option value="rejected">Chưa Duyệt</option>
+        </select>
+      </div>
+      {loading ? (
+        <Loader />
+      ) : (
+        <Fragment>
+          <div className="table-responsive">
+            <table className="table table-bordered table-striped">
+              <thead>
+                <tr>
+                  {setProducts().columns.map((column, index) => (
+                    <th key={index}>{column.label}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {setProducts().rows.map((row, index) => (
+                  <tr key={index}>
+                    {Object.values(row).map((value, idx) => (
+                      <td key={idx}>{value}</td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div
+            className="d-flex justify-content-center mt-5"
+            style={{ marginBottom: "2rem" }}
+          >
+            <Pagination
+              activePage={currentPage}
+              itemsCountPerPage={10}
+              totalItemsCount={productsCount}
+              onChange={handlePageChange}
+              nextPageText={"Next"}
+              prevPageText={"Prev"}
+              firstPageText={"First"}
+              lastPageText={"Last"}
+              itemClass="page-item"
+              linkClass="page-link"
+            />
+          </div>
+        </Fragment>
+      )}
+      {show && (
+        <DeleteNotify func={deleteProductHandler} paras={[id]} show={setShow} />
+      )}
+    </div>
   );
 };
 

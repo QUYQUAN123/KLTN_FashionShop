@@ -17,6 +17,7 @@ const Centre = () => {
     const sidebarPaths = [
       "/shopkeeper/dashboard",
       "/shopkeeper/products",
+      "/shopkeeper/shop",
       "/shopkeeper/orders",
       "/shopkeeper/reviews",
       "/shopkeeper/product",
@@ -27,13 +28,11 @@ const Centre = () => {
   }, [location.pathname]);
 
   return (
-    <div className={`Centre-container-shop background-2`}>
-      {showSidebar && (
-        <div style={{ width: "40px" }}>
-          <Sidebar />
-        </div>
-      )}
-      <div className="Centre">
+    <div style={{ display: "flex" }}>
+      <div style={{ flex: 1 }}>
+        <Sidebar />
+      </div>
+      <div style={{ flex: 8 }}>
         <Routes>
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="products" element={<ProductsList />} />

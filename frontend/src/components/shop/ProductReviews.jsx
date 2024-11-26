@@ -212,10 +212,8 @@ const ProductReviews = () => {
 
   return (
     <Fragment>
-      <MetaData title={"Product Reviews"} />
       <ToastContainer />
-      <div className="sidebar-content-container">
-        <div className="manage-shop-container">
+        <div className="content-container">
           <h1 className="my-4" style={{ fontSize: "40px", fontWeight: "bold", textAlign: "center" }}>
             Quản Lý Đánh Giá
           </h1>
@@ -290,7 +288,6 @@ const ProductReviews = () => {
           </p>
         )}
         </div>
-      </div>
       {showModal && (
         <div className="delete-notify-container">
           <div className="delete-notify-form">
