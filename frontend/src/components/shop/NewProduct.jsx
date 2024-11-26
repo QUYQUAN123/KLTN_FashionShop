@@ -114,7 +114,7 @@ const NewProduct = () => {
     }
 
     const formData = new FormData();
-    formData.set("shopId",shopId);
+    
     formData.set("name", name);
     formData.set("price", price);
     formData.set("description", description);
@@ -192,6 +192,7 @@ const NewProduct = () => {
     });
 
     formData.set("images", JSON.stringify(imagesLinks));
+    formData.set("shopId",shopId);
 
     dispatch(newProduct(formData));
   };
