@@ -33,6 +33,7 @@ import AdminCentre from "./components/admin/Centre";
 import ShopCentre from "./components/shop/Centre";
 import SocketManager from "./components/user/SocketManager";
 import ShopRegister from "./components/shop/register/Register";
+import ShopHome from "./components/shop/Shophome";
 
 function App() {
   const history = useNavigate();
@@ -69,7 +70,7 @@ function App() {
             <Route path="/category/:category" element={<Shop />} />
             <Route path="/product/:id" element={<ProductDetails />} />
             <Route path="/cart" element={<Cart />} />
-
+            <Route path="/shop/:id" element={<ShopHome/>} />
             <Route
               path="/shipping"
               element={<ProtectedRoute component={Shipping} />}

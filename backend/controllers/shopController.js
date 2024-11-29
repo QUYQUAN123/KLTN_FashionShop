@@ -50,6 +50,19 @@ exports.updateShop = catchAsyncErrors(async (req, res, next) => {
         },
       };
       break;
+    case "cover":
+        const coverResult = await cloudinary.v2.uploader.upload(newData.url, {
+          folder: "covers",
+          width: 1920, 
+          crop: "scale",
+        });
+        updateData = {
+          [field]: {
+            public_id: coverResult.public_id,
+            url: coverResult.secure_url,
+          },
+        };
+        break;      
     case "sections":
       updateData = { $push: { sections: newData } };
       break;
@@ -69,8 +82,20 @@ exports.updateShop = catchAsyncErrors(async (req, res, next) => {
 });
 
 exports.getShop = catchAsyncErrors(async (req, res, next) => {
-  let shop = await Shop.findOne({ ownerId: req.user.id });
 
+  let shop = await Shop.findOne({ ownerId: req.user.id }).lean();
+
+  if (!shop) {
+    return next(new ErrorHandler('Shop not found', 404));
+  }
+  const application = await Application.findById(shop.applicationId)
+    .select('shopInfor.shopName')
+    .lean();
+
+  if (!application) {
+    return next(new ErrorHandler('Application data not found', 404));
+  }
+  shop.shopName = application.shopInfor.shopName;
   for (let section of shop.sections) {
     const products = await Product.find({
       shopId: shop._id,
@@ -80,13 +105,7 @@ exports.getShop = catchAsyncErrors(async (req, res, next) => {
       .lean();
     section.products = products;
   }
-
-  shop.save();
-
-  const shopData = await Application.findOne({ userId: req.user.id });
-
-  const stats = await statsRecord(shop._id, "shopkeeper");
-
+  const shopData = application; 
   res.status(200).json({
     success: true,
     shop,
@@ -140,22 +159,53 @@ exports.getAllProductsByShop = catchAsyncErrors(async (req, res, next) => {
     products,
   });
 });
-
-
 exports.getShopById = catchAsyncErrors(async (req, res, next) => {
-  const { shopId } = req.params; // Lấy shopId từ URL params
+  const { shopId } = req.params;
 
-  // Tìm cửa hàng theo shopId
+  // Tìm shop dựa trên shopId và lấy thông tin applicationId
   const shop = await Shop.findById(shopId)
-    .populate("sections.categoryId") 
+    .select('applicationId avatar cover') // Lấy thêm avatar và cover từ bảng Shop
     .lean();
 
   if (!shop) {
-    return next(new ErrorHandler("Shop not found", 404)); 
+    return next(new ErrorHandler('Shop not found', 404));
   }
 
+  // Lấy thông tin từ bảng Application dựa trên applicationId
+  const application = await Application.findById(shop.applicationId)
+    .select('shopInfor.pickupAddress shopInfor.shopName shopInfor.ownerName')
+    .lean();
+
+  if (!application) {
+    return next(new ErrorHandler('Application data not found', 404));
+  }
+
+  // Cấu trúc dữ liệu trả về cho shopData
+  const shopData = {
+    shopName: application.shopInfor.shopName,
+    ownerName: application.shopInfor.ownerName,
+    avatar: shop.avatar,  // Thêm avatar từ bảng Shop
+    cover: shop.cover,    // Thêm cover từ bảng Shop
+    pickupAddress: {
+      contactName: application.shopInfor.pickupAddress.contactName,
+      contactPhone: application.shopInfor.pickupAddress.contactPhone,
+      address: {
+        province: application.shopInfor.pickupAddress.address.province,
+        district: application.shopInfor.pickupAddress.address.district,
+        ward: application.shopInfor.pickupAddress.address.ward,
+        detailed: application.shopInfor.pickupAddress.address.detailed,
+      },
+      email: application.shopInfor.pickupAddress.email,
+      primaryPhone: application.shopInfor.pickupAddress.primaryPhone,
+    },
+  };
+
+  // Trả về dữ liệu shop bao gồm avatar, cover và các thông tin khác
   res.status(200).json({
     success: true,
-    shop,
+    shop: shopData,
   });
 });
+
+
+

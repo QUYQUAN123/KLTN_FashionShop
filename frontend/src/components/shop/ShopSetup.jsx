@@ -9,6 +9,7 @@ import Product from "../product/Product";
 import ManageSection from "./section/ManageSection";
 import { getCategoryAll } from "../../actions/categoryActions";
 import ChangeAvatar from "./ChangeAvatar";
+import ChangeCover from "./ChangeCover";
 
 const ShopSetup = () => {
   const { products } = useSelector((state) => state.shopProducts);
@@ -18,19 +19,26 @@ const ShopSetup = () => {
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
   const [changeAvatar, setChangeAvatar] = useState(false);
+  const [changeCover, setChangeCover] = useState(false);
 
   useEffect(() => {
     dispatch(getShop());
     dispatch(getShopProducts(shop._id));
     dispatch(getCategoryAll());
   }, []);
+  const handleChangeCover = () => {
+    setChangeCover(true); 
+  };
 
   useEffect(() => {
     if (shop) {
       console.log(shop);
     }
   }, [shop]);
-
+  useEffect(() => {
+    console.log("shoopdata",shopData);
+  }, [shopData]);
+  
   return (
     <>
       <ToastContainer />
@@ -47,9 +55,26 @@ const ShopSetup = () => {
           avatar={shop.avatar}
         />
       )}
+      {changeCover && (
+        <ChangeCover
+          onClose={() => setChangeCover(false)} 
+          cover={shop.cover}
+        />
+      )}
       <div className="shop-setup-container">
-        <div className="shop-setup-head-container">
-          <div className="shop-setup-profile-container">
+      <div className="cover-container">
+              {shop && shop.cover && (
+                <img
+                  className="shop-cover-img"
+                  src={shop.cover.url}
+                  alt="Ảnh Bìa"
+                />
+              )}
+              <i
+                className="fa fa-edit"
+                onClick={() => setChangeCover(true)} 
+              />
+    
             <figure className="avatar">
               {shop && shop.avatar && (
                 <img
@@ -63,8 +88,12 @@ const ShopSetup = () => {
             {shopData && shopData.shopInfor && (
               <h1 key="shop-name">{shopData.shopInfor.ownerName}</h1>
             )}
-          </div>
-        </div>
+            {shopData && shopData.shopInfor && (
+  <h1 key="shop-name">{shopData.shopInfor.shopName}</h1>
+)}
+
+       </div>
+      
         <div className="shop-setup-body-container">
           <button className="fa fa-gear" onClick={() => setShow(true)}>
             Điều chỉnh danh mục

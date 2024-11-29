@@ -307,13 +307,17 @@ const Header = () => {
                     <p>{user && user.email}</p>
                     <hr />
                     {user && user.role === "shopkeeper" && (
-                      <Link
-                        className="dropdown-item"
-                        to="/shopkeeper/dashboard"
-                      >
-                        Quản Lí
+                      <Link className="dropdown-item" to="/shopkeeper/dashboard">
+                        Quản Lí Cửa Hàng
                       </Link>
                     )}
+
+                    {user && user.role === "admin" && (
+                      <Link className="dropdown-item" to="/admin/dashboard">
+                        Quản Lí Admin
+                      </Link>
+                    )}
+
                     <Link className="dropdown-item" to="/orders/me">
                       Đơn Hàng
                     </Link>

@@ -10,6 +10,9 @@ import {
   newReview,
   clearErrors,
 } from "../../actions/productActions";
+import {
+  getShopById,
+} from "../../actions/shopActions";
 import { addItemToCart, getUserCartProduct } from "../../actions/cartActions";
 import { checkOrderReview } from "../../actions/orderActions";
 import { NEW_REVIEW_RESET } from "../../constants/productConstants";
@@ -19,6 +22,7 @@ import ProductVariant from "./ProductVariant";
 import { formatToVNDWithVND } from "../../utils/formatHelper";
 import Header from "../layout/Header";
 import Review from "./Review";
+import { Link } from "react-router-dom"
 
 const ProductDetails = () => {
   const { loading, error, product } = useSelector(
@@ -43,13 +47,17 @@ const ProductDetails = () => {
 
   const { user } = useSelector((state) => state.auth);
   const { cartItems } = useSelector((state) => state.cart);
-
+  const shopDetails = useSelector((state) => state.shop);
+  const { shop } = shopDetails;
   const { error: reviewError, success } = useSelector(
     (state) => state.newReview
+  
   );
 
   useEffect(() => {
+    
     dispatch(getProductDetails(id));
+    dispatch(getShopById(product.shopId));
     if (user) {
       console.log("user_id", user._id);
       dispatch(checkOrderReview(user._id, id));
@@ -190,7 +198,7 @@ const ProductDetails = () => {
 
     dispatch(newReview(formData));
   };
-
+console.log("shopname",shopDetails);
   
 
   return (
@@ -225,6 +233,7 @@ const ProductDetails = () => {
         <div className="detail-content">
           <h1>{product.name}</h1>
           <p id="product_id">ID #{product._id}</p>
+         
           <hr />
           <h1>
             Trạng thái:{" "}
@@ -373,6 +382,12 @@ const ProductDetails = () => {
           <div className="review-container"></div>
         </div>
       </div>
+
+      <h2 className="shop-name">
+              <Link to={`/shop/${product.shopId}`}>
+                Cửa hàng: {shop.shopName}
+              </Link>
+            </h2>
 
       <div
         style={{

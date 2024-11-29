@@ -4685,7 +4685,6 @@ body {
 }
 
 .shop-setup-head-container {
-  background-color: #f4ff80;
   width: 100%;
   height: 300px;
 }
@@ -4795,6 +4794,78 @@ body {
   gap: 20px;
   position: relative;
 }
+.shop-cover-img {
+  max-width: 100%;
+  height: auto;
+  transition: transform 0.3s ease; 
+}
+
+.shop-cover-img:hover {
+  transform: scale(1.05); 
+}
+.shop-cover-img-preview {
+  width: 100%;
+  height: auto;
+  max-width: 600px;
+  margin: 0 auto;
+  display: block; 
+}
+.shop-cover-img {
+  object-fit: cover;
+  width: 100%;
+  height: 300px; 
+}
+
+.shop-cover-img-preview {
+  object-fit: contain; 
+}
+.section-overlay .shop-cover-form img {
+  max-width: 80%; 
+  max-height: 400px; 
+  margin: 0 auto;
+  display: block; 
+}
+.shop-cover-img {
+  max-width: 100%;
+  height: 500px;
+  border: 5px solid #ddd; 
+  border-radius: 8px; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+}
+
+.cover-container {
+  position: relative;
+  width: 100%;
+  height: 800px; 
+  overflow: hidden;
+}
+
+.shop-cover-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatar {
+  position: absolute;
+  top: 50%; 
+  left: 50%;
+  transform: translate(-50%, -50%); 
+  width: 170px; 
+  height: 170px;
+  border-radius: 50%; 
+  border: 5px solid white; 
+}
+
+.cover-container .fa-edit {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 30px;
+  cursor: pointer;
+  color: #fff;
+}
+
 
 .shop-setup-profile-container .avatar {
   width: 100px;
@@ -5951,4 +6022,75 @@ i {
 .upload-btn i {
   font-size: 20px; /* Kích thước icon */
   color: #000; /* Màu sắc icon */
+}
+
+
+/* Container chính cho Shop */
+.shop-home-container {
+  width: 100%;
+  max-width: 1200px; /* Giới hạn độ rộng */
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Phần chứa ảnh bìa */
+.cover-shophome {
+  position: relative;
+  width: 100%;
+  height: 300px; /* Đặt chiều cao cho ảnh bìa */
+  background-color: #f0f0f0; /* Màu nền mặc định nếu không có ảnh bìa */
+  overflow: hidden;
+}
+
+/* Ảnh bìa */
+.shop-cover-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Đảm bảo ảnh bìa đầy đủ không bị vỡ */
+  object-position: center; /* Đặt ảnh vào giữa */
+}
+
+/* Phần chứa ảnh avatar */
+.avatar-shophome {
+  position: absolute;
+  bottom: -50px; /* Đưa ảnh avatar ra ngoài ảnh bìa */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 5px solid #fff; /* Viền trắng cho avatar */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Tạo bóng cho avatar */
+}
+
+/* Avatar */
+.avatar-shophome img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Đảm bảo avatar không bị méo */
+}
+
+/* Tạo hiệu ứng hover cho avatar khi di chuột */
+.avatar-shophome:hover {
+  transform: translateX(-50%) scale(1.05); /* Phóng to avatar khi hover */
+  transition: transform 0.3s ease; /* Hiệu ứng mượt mà */
+}
+
+/* Tạo margin cho tên shop và chủ shop */
+.shop-info {
+  text-align: center;
+  margin-top: 80px; /* Đẩy phần info xuống dưới ảnh avatar */
+}
+
+.shop-info h1 {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.shop-info h2 {
+  font-size: 1.25rem;
+  color: #777;
 }

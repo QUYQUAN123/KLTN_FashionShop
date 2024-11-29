@@ -21,6 +21,17 @@ const shopSchema = new mongoose.Schema({
       default: "default_ttizso",
     },
   },
+  cover: {
+    url: {
+      type: String,
+      default: "https://res.cloudinary.com/dfbo1ecn9/image/upload/v1717269130/products/n83hgtyfl2dobavsoxpg.jpg",
+    },
+    public_id: {
+      type: String,
+      default: "default_cover",
+    },
+  },
+  
   applicationId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Application",
