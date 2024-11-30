@@ -1,0 +1,430 @@
+{
+    "_id" : ObjectId("66ae52bf5b0e505b900b71f6"),
+    "shippingInfo" : {
+        "province" : "Thành phố Hồ Chí Minh",
+        "district" : "Quận 1",
+        "town" : "Phường Bến Nghé",
+        "location" : "123456",
+        "phone" : "0912345678"
+    },
+    "user" : ObjectId("66c208bf00c834ad7a6421fc"),
+    "userName" : "Nguyễn Văn A",
+    "orderItems" : [
+        {
+            "product" : ObjectId("66c208be00c834ad7a642036"),
+            "variant" : ObjectId("669cfae275e0de55ed7b5f7c"),
+            "inventory" : ObjectId("669cfae275e0de55ed7b5f7f"),
+            "name" : "Quần Dài Kaki Nam Trơn Lưng Thun Rút Dây Form Straight Crop",
+            "variantName" : "Đen",
+            "quantity" : NumberInt(2),
+            "image" : "https://res.cloudinary.com/dfbo1ecn9/image/upload/v1717280200/products/cd1kysoc2idluvh1zr3l.webp",
+            "price" : NumberInt(540000),
+            "size" : "L",
+            "_id" : ObjectId("669d12a567dd214378b5b965")
+        }
+    ],
+    "paymentInfo" : {
+        "id" : "1722700223257673829",
+        "status" : "Progress"
+    },
+    "paidAt" : ISODate("2024-08-03T16:00:00.000+0000"),
+    "itemsPrice" : NumberInt(1080000),
+    "taxPrice" : NumberInt(54000),
+    "shippingPrice" : NumberInt(0),
+    "totalPrice" : NumberInt(1134000),
+    "orderStatus" : "Processing",
+    "createAt" : ISODate("2024-08-03T16:00:00.000+0000"),
+    "__v" : NumberInt(0)
+}
+{
+    "_id" : ObjectId("66ae53bf5b0e505b900b71f7"),
+    "shippingInfo" : {
+        "province" : "Thành phố Đà Nẵng",
+        "district" : "Quận Hải Châu",
+        "town" : "Phường Hòa Thuận Tây",
+        "location" : "7891011",
+        "phone" : "0934567890"
+    },
+    "user" : ObjectId("669cfb3d3d5a7aa5f711cc79"),
+    "userName" : "Trần Thị B",
+    "orderItems" : [
+        {
+            "product" : ObjectId("669cfae275e0de55ed7b5f71"),
+            "variant" : ObjectId("669cfae275e0de55ed7b5f7c"),
+            "inventory" : ObjectId("669cfae275e0de55ed7b5f7f"),
+            "name" : "Quần Dài Kaki Nam Trơn Lưng Thun Rút Dây Form Straight Crop",
+            "variantName" : "Đen",
+            "quantity" : NumberInt(5),
+            "image" : "https://res.cloudinary.com/dfbo1ecn9/image/upload/v1717280200/products/cd1kysoc2idluvh1zr3l.webp",
+            "price" : NumberInt(540000),
+            "size" : "XL",
+            "_id" : ObjectId("669d12a567dd214378b5b966")
+        }
+    ],
+    "paymentInfo" : {
+        "id" : "1722700223257673830",
+        "status" : "Progress"
+    },
+    "paidAt" : ISODate("2024-08-04T10:00:00.000+0000"),
+    "itemsPrice" : NumberInt(2700000),
+    "taxPrice" : NumberInt(135000),
+    "shippingPrice" : NumberInt(0),
+    "totalPrice" : NumberInt(2835000),
+    "orderStatus" : "Processing",
+    "createAt" : ISODate("2024-08-04T10:00:00.000+0000"),
+    "__v" : NumberInt(0)
+}
+{
+    "_id" : ObjectId("66ae54bf5b0e505b900b71f8"),
+    "shippingInfo" : {
+        "province" : "Thành phố Cần Thơ",
+        "district" : "Quận Ninh Kiều",
+        "town" : "Phường An Bình",
+        "location" : "12131415",
+        "phone" : "0978645312"
+    },
+    "user" : ObjectId("669cfb3d3d5a7aa5f711cc80"),
+    "userName" : "Lê Văn C",
+    "orderItems" : [
+        {
+            "product" : ObjectId("669cfae275e0de55ed7b5f71"),
+            "variant" : ObjectId("669cfae275e0de55ed7b5f74"),
+            "inventory" : ObjectId("669cfae275e0de55ed7b5f78"),
+            "name" : "Quần Dài Kaki Nam Trơn Lưng Thun Rút Dây Form Straight Crop",
+            "variantName" : "Mây Bạc",
+            "quantity" : NumberInt(3),
+            "image" : "https://res.cloudinary.com/dfbo1ecn9/image/upload/v1717280199/products/upf8ezqhbnjwrcl02zbw.webp",
+            "price" : NumberInt(540000),
+            "size" : "M",
+            "_id" : ObjectId("669d175767dd214378b5cc72")
+        }
+    ],
+    "paymentInfo" : {
+        "id" : "1722700223257673831",
+        "status" : "Progress"
+    },
+    "paidAt" : ISODate("2024-08-04T11:00:00.000+0000"),
+    "itemsPrice" : NumberInt(1620000),
+    "taxPrice" : NumberInt(81000),
+    "shippingPrice" : NumberInt(0),
+    "totalPrice" : NumberInt(1701000),
+    "orderStatus" : "Processing",
+    "createAt" : ISODate("2024-08-04T11:00:00.000+0000"),
+    "__v" : NumberInt(0)
+}
+{
+    "_id" : ObjectId("66ae55bf5b0e505b900b71f9"),
+    "shippingInfo" : {
+        "province" : "Thành phố Hải Phòng",
+        "district" : "Quận Hồng Bàng",
+        "town" : "Phường Quán Toan",
+        "location" : "16171819",
+        "phone" : "0923456789"
+    },
+    "user" : ObjectId("669cfb3d3d5a7aa5f711cc81"),
+    "userName" : "Phạm Thị D",
+    "orderItems" : [
+        {
+            "product" : ObjectId("669cfae275e0de55ed7b5f71"),
+            "variant" : ObjectId("669cfae275e0de55ed7b5f74"),
+            "inventory" : ObjectId("669cfae275e0de55ed7b5f78"),
+            "name" : "Quần Dài Kaki Nam Trơn Lưng Thun Rút Dây Form Straight Crop",
+            "variantName" : "Mây Bạc",
+            "quantity" : NumberInt(4),
+            "image" : "https://res.cloudinary.com/dfbo1ecn9/image/upload/v1717280199/products/upf8ezqhbnjwrcl02zbw.webp",
+            "price" : NumberInt(540000),
+            "size" : "L",
+            "_id" : ObjectId("669d175767dd214378b5cc73")
+        }
+    ],
+    "paymentInfo" : {
+        "id" : "1722700223257673832",
+        "status" : "Progress"
+    },
+    "paidAt" : ISODate("2024-08-04T12:00:00.000+0000"),
+    "itemsPrice" : NumberInt(2160000),
+    "taxPrice" : NumberInt(108000),
+    "shippingPrice" : NumberInt(0),
+    "totalPrice" : NumberInt(2268000),
+    "orderStatus" : "Processing",
+    "createAt" : ISODate("2024-08-04T12:00:00.000+0000"),
+    "__v" : NumberInt(0)
+}
+{
+    "_id" : ObjectId("66ae56bf5b0e505b900b71fa"),
+    "shippingInfo" : {
+        "province" : "Thành phố Hồ Chí Minh",
+        "district" : "Quận 7",
+        "town" : "Phường Tân Hưng",
+        "location" : "20212223",
+        "phone" : "0987654321"
+    },
+    "user" : ObjectId("669cfb3d3d5a7aa5f711cc82"),
+    "userName" : "Hoàng Văn E",
+    "orderItems" : [
+        {
+            "product" : ObjectId("669cfae275e0de55ed7b5f71"),
+            "variant" : ObjectId("669cfae275e0de55ed7b5f74"),
+            "inventory" : ObjectId("669cfae275e0de55ed7b5f78"),
+            "name" : "Quần Dài Kaki Nam Trơn Lưng Thun Rút Dây Form Straight Crop",
+            "variantName" : "Mây Bạc",
+            "quantity" : NumberInt(1),
+            "image" : "https://res.cloudinary.com/dfbo1ecn9/image/upload/v1717280199/products/upf8ezqhbnjwrcl02zbw.webp",
+            "price" : NumberInt(540000),
+            "size" : "XL",
+            "_id" : ObjectId("669d175767dd214378b5cc74")
+        }
+    ],
+    "paymentInfo" : {
+        "id" : "1722700223257673833",
+        "status" : "Progress"
+    },
+    "paidAt" : ISODate("2024-08-04T13:00:00.000+0000"),
+    "itemsPrice" : NumberInt(540000),
+    "taxPrice" : NumberInt(27000),
+    "shippingPrice" : NumberInt(0),
+    "totalPrice" : NumberInt(567000),
+    "orderStatus" : "Processing",
+    "createAt" : ISODate("2024-08-04T13:00:00.000+0000"),
+    "__v" : NumberInt(0)
+}
+{
+    "_id" : ObjectId("66ae57bf5b0e505b900b71fb"),
+    "shippingInfo" : {
+        "province" : "Thành phố Hà Nội",
+        "district" : "Quận Hoàn Kiếm",
+        "town" : "Phường Hàng Bài",
+        "location" : "24252627",
+        "phone" : "0901234567"
+    },
+    "user" : ObjectId("669cfb3d3d5a7aa5f711cc83"),
+    "userName" : "Vũ Văn F",
+    "orderItems" : [
+        {
+            "product" : ObjectId("669cfae275e0de55ed7b5f71"),
+            "variant" : ObjectId("669cfae275e0de55ed7b5f74"),
+            "inventory" : ObjectId("669cfae275e0de55ed7b5f78"),
+            "name" : "Quần Dài Kaki Nam Trơn Lưng Thun Rút Dây Form Straight Crop",
+            "variantName" : "Mây Bạc",
+            "quantity" : NumberInt(6),
+            "image" : "https://res.cloudinary.com/dfbo1ecn9/image/upload/v1717280199/products/upf8ezqhbnjwrcl02zbw.webp",
+            "price" : NumberInt(540000),
+            "size" : "M",
+            "_id" : ObjectId("669d175767dd214378b5cc75")
+        }
+    ],
+    "paymentInfo" : {
+        "id" : "1722700223257673834",
+        "status" : "Progress"
+    },
+    "paidAt" : ISODate("2024-08-04T14:00:00.000+0000"),
+    "itemsPrice" : NumberInt(3240000),
+    "taxPrice" : NumberInt(162000),
+    "shippingPrice" : NumberInt(0),
+    "totalPrice" : NumberInt(3402000),
+    "orderStatus" : "Processing",
+    "createAt" : ISODate("2024-08-04T14:00:00.000+0000"),
+    "__v" : NumberInt(0)
+}
+{
+    "_id" : ObjectId("66ae58bf5b0e505b900b71fc"),
+    "shippingInfo" : {
+        "province" : "Thành phố Đà Nẵng",
+        "district" : "Quận Liên Chiểu",
+        "town" : "Phường Hòa Minh",
+        "location" : "28293031",
+        "phone" : "0961234567"
+    },
+    "user" : ObjectId("669cfb3d3d5a7aa5f711cc84"),
+    "userName" : "Ngô Thị G",
+    "orderItems" : [
+        {
+            "product" : ObjectId("669cfae275e0de55ed7b5f71"),
+            "variant" : ObjectId("669cfae275e0de55ed7b5f7c"),
+            "inventory" : ObjectId("669cfae275e0de55ed7b5f7f"),
+            "name" : "Quần Dài Kaki Nam Trơn Lưng Thun Rút Dây Form Straight Crop",
+            "variantName" : "Đen",
+            "quantity" : NumberInt(7),
+            "image" : "https://res.cloudinary.com/dfbo1ecn9/image/upload/v1717280200/products/cd1kysoc2idluvh1zr3l.webp",
+            "price" : NumberInt(540000),
+            "size" : "L",
+            "_id" : ObjectId("669d12a567dd214378b5b967")
+        }
+    ],
+    "paymentInfo" : {
+        "id" : "1722700223257673835",
+        "status" : "Progress"
+    },
+    "paidAt" : ISODate("2024-08-04T15:00:00.000+0000"),
+    "itemsPrice" : NumberInt(3780000),
+    "taxPrice" : NumberInt(189000),
+    "shippingPrice" : NumberInt(0),
+    "totalPrice" : NumberInt(3969000),
+    "orderStatus" : "Processing",
+    "createAt" : ISODate("2024-08-04T15:00:00.000+0000"),
+    "__v" : NumberInt(0)
+}
+{
+    "_id" : ObjectId("66ae59bf5b0e505b900b71fd"),
+    "shippingInfo" : {
+        "province" : "Thành phố Hồ Chí Minh",
+        "district" : "Quận 5",
+        "town" : "Phường 11",
+        "location" : "32333435",
+        "phone" : "0945678901"
+    },
+    "user" : ObjectId("669cfb3d3d5a7aa5f711cc85"),
+    "userName" : "Trương Thị H",
+    "orderItems" : [
+        {
+            "product" : ObjectId("669cfae275e0de55ed7b5f71"),
+            "variant" : ObjectId("669cfae275e0de55ed7b5f7c"),
+            "inventory" : ObjectId("669cfae275e0de55ed7b5f7f"),
+            "name" : "Quần Dài Kaki Nam Trơn Lưng Thun Rút Dây Form Straight Crop",
+            "variantName" : "Đen",
+            "quantity" : NumberInt(4),
+            "image" : "https://res.cloudinary.com/dfbo1ecn9/image/upload/v1717280200/products/cd1kysoc2idluvh1zr3l.webp",
+            "price" : NumberInt(540000),
+            "size" : "M",
+            "_id" : ObjectId("669d12a567dd214378b5b968")
+        }
+    ],
+    "paymentInfo" : {
+        "id" : "1722700223257673836",
+        "status" : "Progress"
+    },
+    "paidAt" : ISODate("2024-08-04T16:00:00.000+0000"),
+    "itemsPrice" : NumberInt(2160000),
+    "taxPrice" : NumberInt(108000),
+    "shippingPrice" : NumberInt(0),
+    "totalPrice" : NumberInt(2268000),
+    "orderStatus" : "Processing",
+    "createAt" : ISODate("2024-08-04T16:00:00.000+0000"),
+    "__v" : NumberInt(0)
+}
+{
+    "_id" : ObjectId("66ae60bf5b0e505b900b71fe"),
+    "shippingInfo" : {
+        "province" : "Thành phố Cần Thơ",
+        "district" : "Quận Bình Thủy",
+        "town" : "Phường Bình Thủy",
+        "location" : "36373839",
+        "phone" : "0936547890"
+    },
+    "user" : ObjectId("669cfb3d3d5a7aa5f711cc86"),
+    "userName" : "Nguyễn Thị I",
+    "orderItems" : [
+        {
+            "product" : ObjectId("669cfae275e0de55ed7b5f71"),
+            "variant" : ObjectId("669cfae275e0de55ed7b5f74"),
+            "inventory" : ObjectId("669cfae275e0de55ed7b5f78"),
+            "name" : "Quần Dài Kaki Nam Trơn Lưng Thun Rút Dây Form Straight Crop",
+            "variantName" : "Mây Bạc",
+            "quantity" : NumberInt(2),
+            "image" : "https://res.cloudinary.com/dfbo1ecn9/image/upload/v1717280199/products/upf8ezqhbnjwrcl02zbw.webp",
+            "price" : NumberInt(540000),
+            "size" : "M",
+            "_id" : ObjectId("669d175767dd214378b5cc76")
+        }
+    ],
+    "paymentInfo" : {
+        "id" : "1722700223257673837",
+        "status" : "Progress"
+    },
+    "paidAt" : ISODate("2024-08-04T17:00:00.000+0000"),
+    "itemsPrice" : NumberInt(1080000),
+    "taxPrice" : NumberInt(54000),
+    "shippingPrice" : NumberInt(0),
+    "totalPrice" : NumberInt(1134000),
+    "orderStatus" : "Processing",
+    "createAt" : ISODate("2024-08-04T17:00:00.000+0000"),
+    "__v" : NumberInt(0)
+}
+{
+    "_id" : ObjectId("66ae61bf5b0e505b900b71ff"),
+    "shippingInfo" : {
+        "province" : "Thành phố Hà Nội",
+        "district" : "Huyện Ba Vì",
+        "town" : "Xã Tòng Bạt",
+        "location" : "2525252",
+        "phone" : "0397144780"
+    },
+    "user" : ObjectId("669cfb3d3d5a7aa5f711cc87"),
+    "userName" : "Lã Quý Quân",
+    "orderItems" : [
+        {
+            "product" : ObjectId("669cfae275e0de55ed7b5f71"),
+            "variant" : ObjectId("669cfae275e0de55ed7b5f7c"),
+            "inventory" : ObjectId("669cfae275e0de55ed7b5f7f"),
+            "name" : "Quần Dài Kaki Nam Trơn Lưng Thun Rút Dây Form Straight Crop",
+            "variantName" : "Đen",
+            "quantity" : NumberInt(13),
+            "image" : "https://res.cloudinary.com/dfbo1ecn9/image/upload/v1717280200/products/cd1kysoc2idluvh1zr3l.webp",
+            "price" : NumberInt(540000),
+            "size" : "M",
+            "_id" : ObjectId("669d12a567dd214378b5b964")
+        },
+        {
+            "product" : ObjectId("669cfae275e0de55ed7b5f71"),
+            "variant" : ObjectId("669cfae275e0de55ed7b5f74"),
+            "inventory" : ObjectId("669cfae275e0de55ed7b5f78"),
+            "name" : "Quần Dài Kaki Nam Trơn Lưng Thun Rút Dây Form Straight Crop",
+            "variantName" : "Mây Bạc",
+            "quantity" : NumberInt(50),
+            "image" : "https://res.cloudinary.com/dfbo1ecn9/image/upload/v1717280199/products/upf8ezqhbnjwrcl02zbw.webp",
+            "price" : NumberInt(540000),
+            "size" : "M",
+            "_id" : ObjectId("669d175767dd214378b5cc71")
+        }
+    ],
+    "paymentInfo" : {
+        "id" : "1722700223257673838",
+        "status" : "Progress"
+    },
+    "paidAt" : ISODate("2024-08-04T18:00:00.000+0000"),
+    "itemsPrice" : NumberInt(34020000),
+    "taxPrice" : NumberInt(1701000),
+    "shippingPrice" : NumberInt(0),
+    "totalPrice" : NumberInt(35721000),
+    "orderStatus" : "Processing",
+    "createAt" : ISODate("2024-08-04T18:00:00.000+0000"),
+    "__v" : NumberInt(0)
+}
+{
+    "_id" : ObjectId("66ae62bf5b0e505b900b7200"),
+    "shippingInfo" : {
+        "province" : "Thành phố Hải Phòng",
+        "district" : "Quận Lê Chân",
+        "town" : "Phường Niệm Nghĩa",
+        "location" : "40414243",
+        "phone" : "0912345678"
+    },
+    "user" : ObjectId("669cfb3d3d5a7aa5f711cc88"),
+    "userName" : "Bùi Thị K",
+    "orderItems" : [
+        {
+            "product" : ObjectId("669cfae275e0de55ed7b5f71"),
+            "variant" : ObjectId("669cfae275e0de55ed7b5f7c"),
+            "inventory" : ObjectId("669cfae275e0de55ed7b5f7f"),
+            "name" : "Quần Dài Kaki Nam Trơn Lưng Thun Rút Dây Form Straight Crop",
+            "variantName" : "Đen",
+            "quantity" : NumberInt(1),
+            "image" : "https://res.cloudinary.com/dfbo1ecn9/image/upload/v1717280200/products/cd1kysoc2idluvh1zr3l.webp",
+            "price" : NumberInt(540000),
+            "size" : "M",
+            "_id" : ObjectId("669d12a567dd214378b5b969")
+        }
+    ],
+    "paymentInfo" : {
+        "id" : "1722700223257673839",
+        "status" : "Progress"
+    },
+    "paidAt" : ISODate("2024-08-04T19:00:00.000+0000"),
+    "itemsPrice" : NumberInt(540000),
+    "taxPrice" : NumberInt(27000),
+    "shippingPrice" : NumberInt(0),
+    "totalPrice" : NumberInt(567000),
+    "orderStatus" : "Processing",
+    "createAt" : ISODate("2024-08-04T19:00:00.000+0000"),
+    "__v" : NumberInt(0)
+}

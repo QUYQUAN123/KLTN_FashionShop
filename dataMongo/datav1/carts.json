@@ -1,0 +1,21 @@
+{
+    "_id" : ObjectId("6745d2312c3b24bf4a53dbfe"),
+    "user" : ObjectId("66cc88f0ba542f37a1401abe"),
+    "cartItems" : [
+        {
+            "shopId" : "SHOP_1723385468288_gf585",
+            "product" : ObjectId("6745c0e73a45419f0d4a272b"),
+            "category" : ObjectId("669cf99a006fedb96df12641"),
+            "variant" : ObjectId("6745c0e73a45419f0d4a272f"),
+            "inventory" : ObjectId("6745c0e73a45419f0d4a2732"),
+            "name" : "325",
+            "variantName" : "3525",
+            "quantity" : NumberInt(2),
+            "image" : "https://res.cloudinary.com/dyeelociz/image/upload/v1732624654/test/jpo8peucytgwrtj4muif.jpg",
+            "price" : NumberInt(525),
+            "size" : "XS",
+            "_id" : ObjectId("6745d2312c3b24bf4a53dbff")
+        }
+    ],
+    "__v" : NumberInt(0)
+}

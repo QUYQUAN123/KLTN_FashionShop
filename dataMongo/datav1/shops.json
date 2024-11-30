@@ -1,0 +1,19 @@
+{
+    "_id" : "SHOP_1723385468288_gf585",
+    "applicationId" : ObjectId("669d18f267dd214378b5e1d1"),
+    "__v" : NumberInt(6),
+    "createdAt" : ISODate("2024-08-11T14:11:08.289+0000"),
+    "ownerId" : ObjectId("66c208f9ba9475fed9e31bee"),
+    "sections" : [
+
+    ],
+    "status" : "active",
+    "avatar" : {
+        "public_id" : "avatars/dl9u6dq4r3mchq7eeq2w",
+        "url" : "https://res.cloudinary.com/dyeelociz/image/upload/v1732868417/avatars/dl9u6dq4r3mchq7eeq2w.webp"
+    },
+    "cover" : {
+        "public_id" : "covers/rqfgxo3vfdntpwidkjhd",
+        "url" : "https://res.cloudinary.com/dyeelociz/image/upload/v1732870996/covers/rqfgxo3vfdntpwidkjhd.jpg"
+    }
+}
