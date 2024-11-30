@@ -6065,6 +6065,18 @@ i {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Tạo bóng cho avatar */
 }
 
+.avatar-shopdetail {
+  position: absolute;
+  left: 30%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 5px solid #fff; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+}
+
 /* Avatar */
 .avatar-shophome img {
   width: 100%;
@@ -6093,4 +6105,13 @@ i {
 .shop-info h2 {
   font-size: 1.25rem;
   color: #777;
+}
+
+.shop-info .avatar-shophome {
+  display: inline-block; /* Giúp ảnh và tên cửa hàng xếp ngang hàng */
+}
+
+.shop-info .shop-name {
+  font-size: 1.25rem; /* Đặt kích thước chữ nếu cần */
+  margin-bottom: 0; /* Loại bỏ khoảng cách dưới tên cửa hàng */
 }

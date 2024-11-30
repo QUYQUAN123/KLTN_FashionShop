@@ -6,7 +6,9 @@ const {
   updateShopSection,
   deleteShopSection,
   getShopById,
-  getAllProductsByShop
+  getAllProductsByShop,
+  getShopInfo,
+  updateShopInfo,
 } = require("../controllers/shopController");
 const { isAuthenticatedUser, authorizeRoles } = require("../middlewares/auth");
 const router = express.Router();
@@ -32,5 +34,11 @@ router
 router
   .route("/shop/:shopId/products")
   .get(getAllProductsByShop);
+  router
+  .route("/shop/info")
+  .get(isAuthenticatedUser, authorizeRoles("shopkeeper"), getShopInfo);
+  router
+  .route("/shop/updateInfo")
+  .put(isAuthenticatedUser, authorizeRoles("shopkeeper"), updateShopInfo);
 
 module.exports = router;

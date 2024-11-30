@@ -84,6 +84,7 @@ exports.updateShop = catchAsyncErrors(async (req, res, next) => {
 exports.getShop = catchAsyncErrors(async (req, res, next) => {
 
   let shop = await Shop.findOne({ ownerId: req.user.id }).lean();
+  console.log("userId ", req.user.id);
 
   if (!shop) {
     return next(new ErrorHandler('Shop not found', 404));
@@ -161,17 +162,13 @@ exports.getAllProductsByShop = catchAsyncErrors(async (req, res, next) => {
 });
 exports.getShopById = catchAsyncErrors(async (req, res, next) => {
   const { shopId } = req.params;
-
-  // Tìm shop dựa trên shopId và lấy thông tin applicationId
   const shop = await Shop.findById(shopId)
-    .select('applicationId avatar cover') // Lấy thêm avatar và cover từ bảng Shop
+    .select('applicationId avatar cover')
     .lean();
 
   if (!shop) {
     return next(new ErrorHandler('Shop not found', 404));
   }
-
-  // Lấy thông tin từ bảng Application dựa trên applicationId
   const application = await Application.findById(shop.applicationId)
     .select('shopInfor.pickupAddress shopInfor.shopName shopInfor.ownerName')
     .lean();
@@ -180,12 +177,11 @@ exports.getShopById = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler('Application data not found', 404));
   }
 
-  // Cấu trúc dữ liệu trả về cho shopData
   const shopData = {
     shopName: application.shopInfor.shopName,
     ownerName: application.shopInfor.ownerName,
-    avatar: shop.avatar,  // Thêm avatar từ bảng Shop
-    cover: shop.cover,    // Thêm cover từ bảng Shop
+    avatar: shop.avatar,  
+    cover: shop.cover,  
     pickupAddress: {
       contactName: application.shopInfor.pickupAddress.contactName,
       contactPhone: application.shopInfor.pickupAddress.contactPhone,
@@ -199,8 +195,6 @@ exports.getShopById = catchAsyncErrors(async (req, res, next) => {
       primaryPhone: application.shopInfor.pickupAddress.primaryPhone,
     },
   };
-
-  // Trả về dữ liệu shop bao gồm avatar, cover và các thông tin khác
   res.status(200).json({
     success: true,
     shop: shopData,
@@ -208,4 +202,71 @@ exports.getShopById = catchAsyncErrors(async (req, res, next) => {
 });
 
 
+exports.updateShopInfo = catchAsyncErrors(async (req, res, next) => {
+  const { shopName, ownerName, pickupAddress, email, primaryPhone, shippingMethod } = req.body;
 
+  // Kiểm tra các trường bắt buộc có đầy đủ không
+  if (!shopName || !ownerName || !pickupAddress || !email || !primaryPhone || !shippingMethod) {
+    return next(new ErrorHandler("Vui lòng cung cấp đầy đủ thông tin cần thiết!", 400));
+  }
+
+  // Tìm cửa hàng của người dùng hiện tại (dựa trên req.user.id)
+  const shop = await Shop.findOne({ ownerId: req.user.id });
+
+  if (!shop) {
+    return next(new ErrorHandler("Cửa hàng không tìm thấy", 404));
+  }
+
+  // Tìm ứng dụng liên quan đến cửa hàng
+  const application = await Application.findById(shop.applicationId);
+
+  if (!application) {
+    return next(new ErrorHandler("Ứng dụng không tìm thấy", 404));
+  }
+
+  // Cập nhật thông tin cửa hàng trong ứng dụng
+  application.shopInfor = {
+    shopName: shopName,
+    ownerName: ownerName,
+    pickupAddress: pickupAddress,
+    email: email,
+    primaryPhone: primaryPhone,
+  };
+
+  application.shippingMethod = shippingMethod;
+  await application.save();
+
+  // Trả về phản hồi thành công
+  res.status(200).json({
+    success: true,
+    message: "Thông tin cửa hàng đã được cập nhật thành công",
+    application,
+  });
+});
+
+
+exports.getShopInfo = catchAsyncErrors(async (req, res, next) => {
+
+  console.log("userId ", req.user.id);
+
+  const application = await Application.findOne({ userId: req.user.id }).populate('userId').lean();
+  if (!application) {
+    return next(new ErrorHandler("Ứng dụng không tìm thấy", 404));
+  }
+
+  // Lấy thông tin shop từ application
+  const shopInfo = {
+    shopName: application.shopInfor.shopName,
+    ownerName: application.shopInfor.ownerName,
+    pickupAddress: application.shopInfor.pickupAddress,
+    email: application.shopInfor.email,
+    primaryPhone: application.shopInfor.primaryPhone,
+    shippingMethod: application.shippingMethod,
+  };
+
+  // Trả về thông tin shop cho người dùng
+  res.status(200).json({
+    success: true,
+    shop: shopInfo,
+  });
+});

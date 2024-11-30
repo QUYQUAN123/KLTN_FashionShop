@@ -379,29 +379,41 @@ console.log("shopname",shopDetails);
               Add to Cart
             </button>
           </div>
+
           <div className="review-container"></div>
         </div>
       </div>
 
-      <h2 className="shop-name">
-              <Link to={`/shop/${product.shopId}`}>
+      <div className="shop-info">
+          {shop && shop.avatar && (
+            <Link to={`/shop/${product.shopId}`} >
+              <figure className="avatar-shopdetail">
+                <img
+                  className="rounded-circle img-fluid"
+                  src={shopDetails.shop.avatar.url}
+                  alt="Ảnh Đại Diện"
+                />
+              </figure>
+              <h2 className="shop-name ml-3 mb-0">
                 Cửa hàng: {shop.shopName}
-              </Link>
-            </h2>
-
+              </h2>
+            </Link>
+          )}
+        </div>
       <div
         style={{
           display: "flex",
           justifyContent: "center",
-          marginBottom: "10rem",
+          marginBottom: "5rem",
         }}
       >
         <div style={{ maxWidth: "50rem", width: "100%" }}>
-          <div style={{ marginTop: "-10rem", marginBottom: "2rem" }}>
+          <div style={{ marginTop: "-5rem", marginBottom: "2rem" }}>
             <Review productId={id} user={user} hasPurchased={hasPurchased} />
           </div>
           <ListReviews productId={id} />
         </div>
+        
       </div>
     </Fragment>
   );
