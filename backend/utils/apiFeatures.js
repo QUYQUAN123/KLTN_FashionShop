@@ -86,6 +86,7 @@ class APIFeatures {
     this.query = this.query.find(query);
     return this;
   }
+
   filterShopProducts() {
     const { keyword, approved } = this.queryStr;
 
@@ -105,6 +106,7 @@ class APIFeatures {
     this.query = this.query.find(query);
     return this;
   }
+  
   filterCategory() {
     const { keyword } = this.queryStr;
 

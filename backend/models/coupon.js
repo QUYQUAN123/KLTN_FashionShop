@@ -5,6 +5,11 @@ const couponSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
+    maxDiscount: { 
+        type: Number,
+        default: 0,  
+        required: true
+    },
     role: {
         type: String,
         required: true
@@ -43,7 +48,8 @@ const couponSchema = new mongoose.Schema({
     status: {
         type: String,
         default: "active"
-    }
+    },
+
 });
 
 module.exports = mongoose.model("Coupon", couponSchema);

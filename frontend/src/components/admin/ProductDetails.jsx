@@ -60,6 +60,11 @@ const ProductDetails = ({ data, onClose, setDecide }) => {
     setDecide(approved);
     const productData = new FormData();
     productData.set("approved", approved);
+    if (approved === "approved") {
+      productData.set("status", "active"); 
+    } else if (approved === "rejected") {
+      productData.set("status", "inactive"); 
+    }
     dispatch(updateProductBasic(id, productData));
   };
 

@@ -2,17 +2,16 @@ const Coupon = require('../models/coupon');
 const catchAsyncErrors = require('../middlewares/catchAsyncErrors');
 const APIFeatures = require("../utils/apiFeatures");
 const ErrorHandler = require("../utils/errorHandler");
+const Shop = require("../models/shop");
 
 
 exports.createCoupon = catchAsyncErrors(async (req, res, next) => {
-  const { percentage, description, target, quantity, expiry } = req.body;
+  const { percentage,maxDiscount, description, target, quantity, expiry } = req.body;
 
-  // Lấy thông tin role và idCreator từ người dùng đang đăng nhập
   const { role, _id: creatorId } = req.user;
-
-  // Tạo một đối tượng coupon mới
   const newCoupon = await Coupon.create({
     percentage,
+    maxDiscount,
     description,
     target,
     quantity,
@@ -29,7 +28,7 @@ exports.createCoupon = catchAsyncErrors(async (req, res, next) => {
 
 
 exports.updateCoupon = catchAsyncErrors(async (req, res, next) => {
-  const { percentage, description, target, quantity, expiry } = req.body;
+  const { percentage, maxDiscount,description, target, quantity, expiry } = req.body;
   const { couponId } = req.params;
 
   let coupon = await Coupon.findById(couponId);
@@ -38,6 +37,7 @@ exports.updateCoupon = catchAsyncErrors(async (req, res, next) => {
   }
 
   coupon.percentage = percentage !== undefined ? percentage : coupon.percentage;
+  coupon.maxDiscount = maxDiscount !== undefined ? maxDiscount : coupon.maxDiscount;
   coupon.description = description !== undefined ? description : coupon.description;
   coupon.target = target !== undefined ? target : coupon.target;
   coupon.quantity = quantity !== undefined ? quantity : coupon.quantity;
@@ -54,14 +54,10 @@ exports.updateCoupon = catchAsyncErrors(async (req, res, next) => {
 
 exports.deleteCoupon = catchAsyncErrors(async (req, res, next) => {
   const { couponId } = req.params;
-
-  // Find the coupon by ID
   const coupon = await Coupon.findById(couponId);
   if (!coupon) {
       return next(new ErrorHandler('Coupon not found', 404));
   }
-
-  // Delete the coupon
   await Coupon.findByIdAndDelete(couponId);
 
   // Return success response
@@ -93,11 +89,7 @@ exports.getAllCoupons = catchAsyncErrors(async (req, res, next) => {
   if (req.query.role && req.query.role !== 'all') {
       query = query.where('role').equals(req.query.role);
   }
-
-  // Get total number of documents
   const totalCoupons = await Coupon.countDocuments(query);
-
-  // Execute query with pagination
   const coupons = await query.skip(skip).limit(resPerPage);
 
   res.status(200).json({
@@ -142,3 +134,45 @@ exports.getActiveCoupons = catchAsyncErrors(async (req, res, next) => {
       coupons
   });
 });
+
+
+exports.getCouponsOnShop = catchAsyncErrors(async (req, res, next) => {
+  const resPerPage = Number(req.query.resPerPage) || 10; 
+  const currentPage = Number(req.query.page) || 1; 
+  const skip = resPerPage * (currentPage - 1); 
+  
+  const creatorId = req.user.id; 
+console.log("da",creatorId);
+
+console.log("req.user.id:", req.user.id);
+console.log("creatorId in database:", creatorId);
+
+let query = Coupon.find({ creatorId });
+
+
+  if (req.query.keyword) {
+    query = query.or([
+      { description: { $regex: req.query.keyword, $options: 'i' } },
+      { target: { $regex: req.query.keyword, $options: 'i' } },
+    ]);
+  }
+
+  if (req.query.status && req.query.status !== 'all') {
+    query = query.where('status').equals(req.query.status);
+  }
+
+  const totalCoupons = await Coupon.countDocuments(query);
+
+  const coupons = await query.skip(skip).limit(resPerPage);
+
+  res.status(200).json({
+    success: true,
+    coupons,
+    totalCoupons,
+    resPerPage,
+    currentPage,
+  });
+});
+
+
+

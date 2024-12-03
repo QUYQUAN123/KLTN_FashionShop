@@ -7,10 +7,10 @@ import { createCoupon, clearErrors } from "../../actions/couponActions";
 import { getCategoryAll } from "../../actions/categoryActions";
 import { CREATE_COUPON_RESET } from "../../constants/couponConstants";
 
-const NewCoupon = () => {
+const NewCouponShop = () => {
   const [percentage, setPercentage] = useState("");
   const [maxDiscount, setMaxDiscount] = useState("");
-  const [role] = useState("admin");
+  const [role] = useState("shopkeeper");
   const [description, setDescription] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [quantity, setQuantity] = useState("");
@@ -33,7 +33,7 @@ const NewCoupon = () => {
     if (success) {
       toast.success("Tạo mới phiếu giảm giá thành công");
       setTimeout(() => {
-        navigate("/admin/coupons");
+        navigate("/shopkeeper/coupons");
         dispatch({ type: CREATE_COUPON_RESET });
       }, 500);
     }
@@ -223,4 +223,4 @@ const NewCoupon = () => {
   );
 };
 
-export default NewCoupon;
+export default NewCouponShop;

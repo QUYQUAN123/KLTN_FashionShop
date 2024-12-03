@@ -16,6 +16,11 @@ const Sidebar = () => {
             <i className="fa fa-product-hunt"></i> Quản lý Cửa Hàng
           </Link>
         </li>
+        <li>
+          <Link to="/shopkeeper/coupons" className="sidebar-element-shop">
+            <i className="fa fa-product-hunt"></i> Quản lý khuyễn mãi
+          </Link>
+        </li>
 
         <li>
           <Link to="/shopkeeper/products" className="sidebar-element-shop">

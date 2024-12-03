@@ -20,6 +20,9 @@ import {
     GET_ACTIVE_COUPONS_REQUEST,
     GET_ACTIVE_COUPONS_SUCCESS,
     GET_ACTIVE_COUPONS_FAIL,
+    GET_COUPONS_ON_SHOP_REQUEST,
+    GET_COUPONS_ON_SHOP_SUCCESS,
+    GET_COUPONS_ON_SHOP_FAIL
 } from '../constants/couponConstants';
 
 // Create Coupon
@@ -149,3 +152,29 @@ export const getAllCoupons = (currentPage = 1, keyword = "", status = "all", rol
             type: CLEAR_ERRORS
         });
     }
+
+    export const getCouponsOnShop = (currentPage = 1, keyword = "", status = "all", resPerPage = 10) => async (dispatch) => {
+        try {
+          dispatch({ type: GET_COUPONS_ON_SHOP_REQUEST });
+      
+          const { data } = await axios.get(
+            `/api/v1/coupon/getCouponOnShop?page=${currentPage}&keyword=${keyword}&status=${status}&resPerPage=${resPerPage}`
+          );
+          console.log("API Response:", data);
+    
+          dispatch({
+            type: GET_COUPONS_ON_SHOP_SUCCESS,
+            payload: data, 
+          });
+        } catch (error) {
+          dispatch({
+            type: GET_COUPONS_ON_SHOP_FAIL,
+            payload: error.response ? error.response.data.message : error.message,
+          });
+          console.log(
+            "Error:",
+            error.response ? error.response.data.message : error.message
+          );
+        }
+      };
+      

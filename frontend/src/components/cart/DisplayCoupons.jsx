@@ -55,9 +55,9 @@ const DisplayCoupons = ({ onClose }) => {
     const handleApplyCoupons = () => {
         if (selectedCoupons.length > 0) {
           console.log('Applied coupons:', selectedCoupons);
-          onClose(selectedCoupons); // Pass the selected coupons back to the parent
+          onClose(selectedCoupons);
         } else {
-          onClose(); // Close without applying coupons
+          onClose(); 
         }
       };
 
@@ -85,7 +85,7 @@ const DisplayCoupons = ({ onClose }) => {
                                         <div className="coupon-percentage">{coupon.percentage}%</div>
                                         <div className="coupon-details">
                                             <p className="coupon-description">{coupon.description}</p>
-                                            <p className="coupon-type">Loại: {coupon.target.type}</p>
+                                            <p className="coupon-type">Giảm tối đa : {coupon.maxDiscount}VND</p>
                                             <p className="coupon-quantity">Số lượng: {coupon.quantity}</p>
                                             <p className="coupon-expiry">Hạn sử dụng: {formatDate(coupon.expiry)}</p>
                                         </div>

@@ -2,7 +2,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import DataTable from "../layout/DataTable";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllCoupons, deleteCoupon,toggleStatus  } from "../../actions/couponActions";
+import { getCouponsOnShop, deleteCoupon, toggleStatus } from "../../actions/couponActions";
 import Pagination from "react-js-pagination";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -14,11 +14,11 @@ import {
   CLEAR_ERRORS
 } from "../../constants/couponConstants";
 
-const ManageCoupons = () => {
+const ShopCoupon = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { loading, error, coupons, totalCoupons, success,isStatusUpdated } = useSelector(
+  const { loading, error, coupons, totalCoupons, success, isStatusUpdated } = useSelector(
     (state) => state.coupon 
   );
 
@@ -28,31 +28,32 @@ const ManageCoupons = () => {
   const [couponToDelete, setCouponToDelete] = useState(null);
 
   const [status, setStatus] = useState("all");
-  const [role, setRole] = useState("all");
-  
-    useEffect(() => {
-      if (isStatusUpdated) {
-        toast.success("Cập nhật trạng thái thành công");
-        dispatch({ type: TOGGLE_STATUS_RESET });
-        dispatch(getAllCoupons(currentPage, keyword, status, role));
-      }
-    }, [dispatch, isStatusUpdated, currentPage, keyword, status, role]);
 
-    useEffect(() => {
-      dispatch(getAllCoupons(currentPage, keyword, status, role));
+  useEffect(() => {
+    if (isStatusUpdated) {
+      toast.success("Cập nhật trạng thái thành công");
+      dispatch({ type: TOGGLE_STATUS_RESET });
+      dispatch(getCouponsOnShop(currentPage, keyword, status));
+    }
+  }, [dispatch, isStatusUpdated, currentPage, keyword, status]);
 
-      if (success) {
-        toast.success("Xóa Thành Công Phiếu Giảm Giá");
-        dispatch({ type: DELETE_COUPON_RESET });
-        dispatch({ type: UPDATE_COUPON_RESET });
-        dispatch({ type: CREATE_COUPON_RESET });
-      }
+  useEffect(() => {
+    dispatch(getCouponsOnShop(currentPage, keyword, status));
+    console.log('Coupons in component:', coupons);
 
-      if (error) {
-        toast.error(error);
-        dispatch({ type: CLEAR_ERRORS });
-      }
-    }, [dispatch, success, error, currentPage, keyword, status, role]);
+    if (success) {
+      toast.success("Xóa Thành Công Phiếu Giảm Giá");
+      dispatch({ type: DELETE_COUPON_RESET });
+      dispatch({ type: UPDATE_COUPON_RESET });
+      dispatch({ type: CREATE_COUPON_RESET });
+    }
+
+    if (error) {
+      toast.error(error);
+      dispatch({ type: CLEAR_ERRORS });
+    }
+  }, [dispatch, success, error, currentPage, keyword, status]);
+
   const deleteHandler = (id) => {
     setShow(true);
     setCouponToDelete(id);
@@ -60,33 +61,27 @@ const ManageCoupons = () => {
 
   const confirmDelete = () => {
     dispatch(deleteCoupon(couponToDelete));
-    dispatch(getAllCoupons(currentPage, keyword));
+    dispatch(getCouponsOnShop(currentPage, keyword, status));
     setShow(false);
-
   };
 
   const handleSearch = (e) => {
     e.preventDefault();
     setCurrentPage(1);
-    dispatch(getAllCoupons(1, keyword, status, role));
+    dispatch(getCouponsOnShop(1, keyword, status));
   };
 
   const handleStatusChange = (e) => {
     setStatus(e.target.value);
     setCurrentPage(1);
-    dispatch(getAllCoupons(1, keyword, e.target.value, role));
-  };
-
-  const handleRoleChange = (e) => {
-    setRole(e.target.value);
-    setCurrentPage(1);
-    dispatch(getAllCoupons(1, keyword, status, e.target.value));
+    dispatch(getCouponsOnShop(1, keyword, e.target.value));
   };
 
   const cancelDelete = () => {
     setShow(false);
     setCouponToDelete(null);
   };
+
   const handleBanCoupon = (id) => {
     dispatch(toggleStatus(id));
   };
@@ -127,7 +122,7 @@ const ManageCoupons = () => {
     };
 
     if (coupons && coupons.length > 0) {
-      coupons.forEach((coupon) => {
+        coupons.forEach((coupon) => {
         data.rows.push({
           percentage: `${coupon.percentage}%`,
           maxDiscount: `${coupon.maxDiscount}vnd`,
@@ -138,12 +133,12 @@ const ManageCoupons = () => {
           action: (
             <Fragment>
               <div className="flex-horizontal">
-                <Link
+                {/* <Link
                   to={`/admin/coupon/update/${coupon._id}`}
                   className="btn btn-primary py-1 px-2"
                 >
                   <i className="fa fa-pencil"></i>
-                </Link>
+                </Link> */}
                 <button
                   className="btn btn-danger py-1 px-2 ml-2"
                   onClick={() => deleteHandler(coupon._id)}
@@ -152,7 +147,7 @@ const ManageCoupons = () => {
                 </button>
                 <button
                   className="btn btn-warning py-1 ml-2"
-                  onClick={() => handleBanCoupon (coupon._id)}
+                  onClick={() => handleBanCoupon(coupon._id)}
                 >
                   <i
                     className={`fa ${
@@ -183,8 +178,6 @@ const ManageCoupons = () => {
     setCurrentPage(pageNumber);
   };
 
-
-
   return (
     <Fragment>
       <ToastContainer />
@@ -196,7 +189,7 @@ const ManageCoupons = () => {
       </h1>
 
       <div className="mb-4" style={{ display: "flex", marginLeft: "5rem" }}>
-        <Link to="/admin/coupon/new" className="btn btn-primary">
+        <Link to="/shopkeeper/newCoupon" className="btn btn-primary">
           Thêm phiếu giảm giá mới
         </Link>
       </div>
@@ -225,12 +218,6 @@ const ManageCoupons = () => {
           <option value="active">Đang hoạt động</option>
           <option value="inactive">Ngưng hoạt động</option>
         </select>
-        <select value={role} onChange={handleRoleChange} style={{ padding: "10px", borderRadius: "5px", border: "1px solid #ccc" }}>
-          <option value="all">Tất cả vai trò</option>
-          <option value="admin">Admin</option>
-          <option value="shopkeeper">Shopkeeper</option>
-        </select>
-       
       </form>
       {loading ? (
         <h2 style={{ textAlign: "center" }}>Đang tải...</h2>
@@ -287,4 +274,4 @@ const ManageCoupons = () => {
   );
 };
 
-export default ManageCoupons;
+export default ShopCoupon;

@@ -22,6 +22,9 @@ import {
     GET_ACTIVE_COUPONS_REQUEST,
     GET_ACTIVE_COUPONS_SUCCESS,
     GET_ACTIVE_COUPONS_FAIL,
+    GET_COUPONS_ON_SHOP_REQUEST,
+    GET_COUPONS_ON_SHOP_SUCCESS,
+    GET_COUPONS_ON_SHOP_FAIL
   } from "../constants/couponConstants";
   
   export const couponReducer = (state = { coupons: [] }, action) => {
@@ -156,7 +159,21 @@ import {
             loading: false,
             error: action.payload
         };
-  
+        case GET_COUPONS_ON_SHOP_REQUEST:
+          return { ...state, loading: true };
+        
+          case GET_COUPONS_ON_SHOP_SUCCESS:
+            return {
+              ...state,
+              loading: false,
+              coupons: action.payload.coupons,  
+              totalCouponshop: action.payload.totalCoupons,
+              currentPage: action.payload.currentPage,
+              resPerPage: action.payload.resPerPage,
+            };
+          
+        case GET_COUPONS_ON_SHOP_FAIL:
+          return { ...state, loading: false, error: action.payload };
       case CLEAR_ERRORS:
         return {
           ...state,

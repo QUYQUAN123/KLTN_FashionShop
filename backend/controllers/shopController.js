@@ -150,7 +150,7 @@ exports.deleteShopSection = catchAsyncErrors(async (req, res, next) => {
 
 exports.getAllProductsByShop = catchAsyncErrors(async (req, res, next) => {
   const shopId = req.params.shopId;
-  const products = await Product.find({ shopId })
+  const products = await Product.find({ shopId, status: 'active' })
     .lean() 
     .populate("category") 
     .sort({ createdAt: -1 }); 

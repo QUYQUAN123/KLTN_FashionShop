@@ -198,7 +198,7 @@ const ProductDetails = () => {
 
     dispatch(newReview(formData));
   };
-console.log("shopname",shopDetails);
+// console.log("shopname",shopDetails);
   
 
   return (

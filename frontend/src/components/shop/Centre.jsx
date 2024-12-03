@@ -9,6 +9,8 @@ import OrdersList from "./OrdersList";
 import ProcessOrder from "./ProcessOrder";
 import ProductReviews from "./ProductReviews";
 import ShopSetup from "./ShopSetup";
+import NewCouponShop from "./NewCouponShop";
+import ShopCoupon from "./ShopCoupon";
 
 const Centre = () => {
   const location = useLocation();
@@ -23,6 +25,7 @@ const Centre = () => {
       "/shopkeeper/product",
       "/shopkeeper/order/",
       "/shopkeeper/user/",
+      "/shopkeeper/coupons/",
     ];
     return sidebarPaths.some((path) => location.pathname.startsWith(path));
   }, [location.pathname]);
@@ -42,6 +45,8 @@ const Centre = () => {
           <Route path="order/:id" element={<ProcessOrder />} />
           <Route path="reviews" element={<ProductReviews />} />
           <Route path="shop" element={<ShopSetup />} />
+          <Route path="newCoupon" element={<NewCouponShop />} />
+          <Route path="coupons" element={<ShopCoupon />} />
         </Routes>
       </div>
     </div>

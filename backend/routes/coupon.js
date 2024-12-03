@@ -6,7 +6,8 @@ const {
     deleteCoupon,
     getAllCoupons,
     toggleStatus,
-    getActiveCoupons
+    getActiveCoupons,
+    getCouponsOnShop,
 
 } = require('../controllers/couponController');
 const { isAuthenticatedUser, authorizeRoles } = require("../middlewares/auth");
@@ -17,4 +18,6 @@ router.route('/coupon/delete/:couponId').delete(isAuthenticatedUser, authorizeRo
 router.route("/admin/coupons").get(isAuthenticatedUser, authorizeRoles('admin', 'shopkeeper'),getAllCoupons);
 router.route('/coupon/toggle-status/:couponId').put(toggleStatus);
 router.route('/coupons/active').get(getActiveCoupons);
+
+router.route('/coupon/getCouponOnShop').get(isAuthenticatedUser,getCouponsOnShop);
 module.exports = router;
