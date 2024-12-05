@@ -161,7 +161,9 @@ exports.getAllProductsByShop = catchAsyncErrors(async (req, res, next) => {
   });
 });
 exports.getShopById = catchAsyncErrors(async (req, res, next) => {
+
   const { shopId } = req.params;
+  console.log("shopId",shopId);
   const shop = await Shop.findById(shopId)
     .select('applicationId avatar cover')
     .lean();

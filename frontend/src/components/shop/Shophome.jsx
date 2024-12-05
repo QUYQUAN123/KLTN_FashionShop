@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom"; // Nếu id shop là từ URL params
-import { getShopById,getProductsByShopId } from "../../actions/shopActions"; // Import hàm getShopById
+import { useParams } from "react-router-dom"; 
+import { getShopById,getProductsByShopId } from "../../actions/shopActions";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Product from "../product/Product";
@@ -16,7 +16,7 @@ const ShopHome = () => {
     dispatch(getProductsByShopId(id));
   }, [dispatch, id]); 
 
-  console.log("san pham",products);
+
   return (
     <>
       <ToastContainer />
@@ -39,25 +39,30 @@ const ShopHome = () => {
             )}
           </figure>
         </div>  
-        <h2>{shop.shopName}</h2>
+        <div className="shop-name">
+        <h1>{shop.shopName}</h1> {/* Hiển thị tên cửa hàng */}
+      </div>
+       
      
-          </div>
-            <div className="shop-details-box">
-              <h3>Thông tin cửa hàng</h3>
-              <div className="shop-detail-item">
-                <strong>Địa chỉ:</strong>{" "}
-                {shop && shop.pickupAddress && shop.pickupAddress.address.detailed},{" "}
-                {shop && shop.pickupAddress && shop.pickupAddress.address.ward},{" "}
-                {shop && shop.pickupAddress && shop.pickupAddress.address.district},{" "}
-                {shop && shop.pickupAddress && shop.pickupAddress.address.province}
-              </div>
-              <div className="shop-detail-item">
-                <strong>Số điện thoại:</strong> {shop && shop.pickupAddress && shop.pickupAddress.contactPhone}
-              </div>
-              <div className="shop-detail-item">
-                <strong>Liên hệ:</strong> {shop && shop.pickupAddress && shop.pickupAddress.contactName}
-              </div>
+          
+          <div className="shop-details-box">
+            <h3 className="shop-title">Thông tin cửa hàng</h3>
+            <div className="shop-detail-item">
+              <strong>Địa chỉ:</strong>{" "}
+              {shop && shop.pickupAddress && shop.pickupAddress.address.detailed},{" "}
+              {shop && shop.pickupAddress && shop.pickupAddress.address.ward},{" "}
+              {shop && shop.pickupAddress && shop.pickupAddress.address.district},{" "}
+              {shop && shop.pickupAddress && shop.pickupAddress.address.province}
+            </div>
+            <div className="shop-detail-item">
+              <strong>Số điện thoại:</strong> {shop && shop.pickupAddress && shop.pickupAddress.contactPhone}
+            </div>
+            <div className="shop-detail-item">
+              <strong>Liên hệ:</strong> {shop && shop.pickupAddress && shop.pickupAddress.contactName}
+            </div>
 
+
+            </div>
 
           <div className="home-component">
               <h3>Sản phẩm của cửa hàng:</h3>

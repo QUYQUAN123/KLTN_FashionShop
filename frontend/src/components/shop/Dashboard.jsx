@@ -9,16 +9,15 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { getShopProducts } from "../../actions/productActions";
 import { allOrders, fetchOrderStats } from "../../actions/orderActions";
-import { allUsers } from "../../actions/userActions";
 import ChartComponent from "../Chart";
 import OrderChart from "../OrderChart";
 import { formatToVNDWithVND } from "../../utils/formatHelper";
+import { getShop , getShopById,getProductsByShopId} from "../../actions/shopActions";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
-
+  const { shop, shopData } = useSelector((state) => state.shop);
   const { products } = useSelector((state) => state.products);
-  const { users } = useSelector((state) => state.allUsers);
   const {
     monthlyRevenue,
     monthlyOrderCount,
@@ -29,6 +28,8 @@ const Dashboard = () => {
     loading,
   } = useSelector((state) => state.allOrders);
 
+
+  console.log(totalAmount,"totalAmount");
   let outOfStock = 0;
   products.forEach((product) => {
     if (product.stock === 0) {
@@ -39,17 +40,46 @@ const Dashboard = () => {
   useEffect(() => {
     dispatch(getShopProducts());
     dispatch(fetchOrderStats());
-    dispatch(allOrders());
-    dispatch(allUsers());
+  
   }, [dispatch]);
 
+ 
+  useEffect(() => {
+    dispatch(getShop());
+    dispatch(allOrders(1, "", "", 10)); 
+  }, [dispatch]);
+
+
+  useEffect(() => {
+    if (shop && shop._id) {
+      console.log("shopid", shop._id);
+      
+      localStorage.setItem("shopid", shop._id);
+    }
+  }, [shop]); 
+  
   useEffect(() => {
     dispatch(fetchOrderStats());
   }, [dispatch]);
 
   return (
     <div className="content-container">
-      <h1>Quản Lí</h1>
+      <h1
+        style={{
+          fontSize: "40px",
+          fontWeight: "bold",
+          textAlign: "center", 
+          padding: "20px 0",  
+          margin: "10px auto",  
+          width: "100%", 
+          maxWidth: "800px",  
+          color: "#333",  
+          textTransform: "uppercase", 
+          boxSizing: "border-box",  
+        }}
+      >
+        Quản Lí Shop
+      </h1>
       {loading ? (
         <Loader />
       ) : (
@@ -131,19 +161,23 @@ const Dashboard = () => {
           {/* <div className="row pr-4" style={{ marginLeft:'4rem' }}>
                       <ChartComponent monthlyRevenue={monthlyRevenue} />
                       </div> */}
-          <Fragment>
+          {/* <Fragment>
             <div className="chart-wrapper">
               <ChartComponent monthlyRevenue={monthlyRevenue} />
 
               <OrderChart monthlyOrderCount={monthlyOrderCount} />
             </div>
-          </Fragment>
+          </Fragment> */}
 
           <div className="row pr-4">
-            <div className="col-xl-3 col-sm-6 mb-3">
+            <div className="col-xl-3 col-sm-6 mb-3"style={{
+                 marginLeft:"350px",
+                  }}>
+              
               <div
                 className="image-container"
                 style={{
+                  
                   backgroundImage: `url('../images/Screenshot 2024-06-17 222645.png')`,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
@@ -266,105 +300,9 @@ const Dashboard = () => {
               </div>
             </div>
 
-            <div className="col-xl-3 col-sm-6 mb-3">
-              <div
-                className="image-container"
-                style={{
-                  backgroundImage: `url('../images/Screenshot 2024-06-16 032352.png')`,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                  height: "200px",
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  padding: "10px",
-                }}
-              >
-                <div
-                  className="card-body text-center"
-                  style={{
-                    color: "white",
-                    padding: "10px",
-                  }}
-                >
-                  <div
-                    className="card-font-size"
-                    style={{
-                      fontSize: "1.5rem",
-                      fontWeight: "bold",
-                      textShadow: "1px 1px 2px rgba(0, 0, 0, 0.7)",
-                      marginTop: "2rem",
-                    }}
-                  >
-                    Khách Hàng <br /> <b>{users && users.length}</b>
-                  </div>
-                </div>
-                <div
-                  className="card-body"
-                  style={{
-                    width: "100%",
-                  }}
-                >
-                  <div
-                    className="link-container text-center"
-                    style={{
-                      width: "100%",
-                    }}
-                  >
-                    <Link
-                      className="card-footer btn btn-primary"
-                      to="/shopkeeper/users"
-                      style={{
-                        width: "100%",
-                        display: "block",
-                        textAlign: "center",
-                        marginBottom: "-1rem",
-                      }}
-                    >
-                      Chi Tiết
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </div>
+            
 
-            <div className="col-xl-3 col-sm-6 mb-3">
-              <div
-                className="image-container"
-                style={{
-                  backgroundImage: `url('../images/tải xuống (3).jpg')`,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                  height: "200px",
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  padding: "10px",
-                }}
-              >
-                <div
-                  className="card-body text-center"
-                  style={{
-                    color: "white",
-                    padding: "10px",
-                  }}
-                >
-                  <div
-                    className="card-font-size"
-                    style={{
-                      fontSize: "1.5rem",
-                      fontWeight: "bold",
-                      textShadow: "1px 1px 2px rgba(0, 0, 0, 0.7)",
-                      marginTop: "2rem",
-                    }}
-                  >
-                    Hết Sản Phẩm <br /> <b>{outOfStock}</b>
-                  </div>
-                </div>
-              </div>
-            </div>
+            
           </div>
         </Fragment>
       )}

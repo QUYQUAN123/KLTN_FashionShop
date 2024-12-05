@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { getShop, updateShop } from "../../actions/shopActions";
+import { getShop,getShopById, updateShop } from "../../actions/shopActions";
 import { UPDATE_SHOP_RESET } from "../../constants/shopConstants";
 
 const ChangeCover = ({ cover, onClose }) => {
@@ -16,11 +16,12 @@ const ChangeCover = ({ cover, onClose }) => {
       onClose();
     }
   };
-
+  const shopId = localStorage.getItem("shopid");
+ 
   useEffect(() => {
     if (isUpdated) {
       toast.success("Đổi Ảnh Bìa Thành Công");
-      dispatch(getShop());
+      dispatch(getShopById(shopId));
       dispatch({ type: UPDATE_SHOP_RESET });
       onClose();
     }

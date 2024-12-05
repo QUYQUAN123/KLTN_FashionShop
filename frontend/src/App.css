@@ -6048,6 +6048,7 @@ i {
 }
 
 
+
 /* Container chính cho Shop */
 .shop-home-container {
   width: 100%;
@@ -6135,6 +6136,176 @@ i {
 }
 
 .shop-info .shop-name {
-  font-size: 1.25rem; /* Đặt kích thước chữ nếu cần */
-  margin-bottom: 0; /* Loại bỏ khoảng cách dưới tên cửa hàng */
+  font-size: 1.25rem; 
+  margin-bottom: 0; 
+  
+}
+
+.shop-details-box {
+  background-color: #f9f9f9;  /* Màu nền khung thông tin cửa hàng */
+  border: 1px solid #ddd;  /* Viền của khung */
+  border-radius: 8px;  /* Bo góc cho khung */
+  padding: 20px;
+  margin: 20px auto;
+  width: 80%;  /* Bạn có thể thay đổi width tùy ý */
+  max-width: 1200px;  /* Giới hạn chiều rộng khung */
+}
+
+.shop-title {
+  text-align: center;  /* Căn giữa tên shop */
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #333;  /* Màu chữ cho tên shop */
+}
+
+.shop-detail-item {
+  font-size: 16px;
+  margin-bottom: 10px;
+  color: #555;  /* Màu chữ cho các thông tin chi tiết */
+}
+
+.shop-detail-item strong {
+  font-weight: bold; 
+}
+.shop-name {
+  display: flex;          
+  justify-content: center; 
+  align-items: center;     
+  height: 10vh;           
+}
+
+.shop-name h1 {
+  font-size: 40px;        
+  font-weight: bold;       
+  color: #333;           
+  text-align: center;     
+  margin: 0;               
+}
+
+
+
+
+.shop-statistics {
+  margin-bottom: 30px;
+}
+
+.shop-statistics__title {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.shop-statistics__grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px; 
+}
+
+.shop-statistics__card {
+  margin-top: 15px;
+  margin-left: 20px;
+  width:  300px;
+  background-color: #f9f9f9;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.shop-statistics__name {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.shop-statistics__details {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.shop-statistics__product-count,
+.shop-statistics__total-quantity {
+  font-size: 14px;
+  color: #555;
+}
+
+
+.admin-statistics-container {
+  width: 1200px;
+  height: 120vh;
+  background-color: white;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.revenue-statistics {
+  margin-top: 20px;
+  padding: 20px;
+  text-align: center;
+  background-color: #e0f7fa; /* Nền xanh sáng */
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid #4caf50; /* Viền xanh */
+}
+
+.revenue-statistics h2 {
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #00796b; /* Màu chữ xanh đậm */
+}
+
+.revenue-statistics p {
+  font-size: 1.2rem;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.tab-container {
+    text-align: center;
+  display: flex;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #4caf50;
+}
+
+.tab-button {
+  padding: 10px 20px;
+  background-color: #ffffff;
+  border: none;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
+}
+
+.tab-button.active {
+  border-bottom: 3px solid #4caf50; /* Viền xanh dưới tab khi active */
+  background-color: #ffffff;
+  font-weight: bold;
+}
+
+.tab-button:hover {
+  background-color: #f1f8e9; 
+}
+
+.revenue-tab-content {
+  margin-top: 30px;
+  display: none;
+  text-align: center;
+}
+.revenue-tab-content .revenue-amount {
+  font-size: 3rem; /* Cỡ chữ lớn cho doanh thu */
+  font-weight: bold;
+  color: #d945cf; /* Màu xanh đậm */
+  margin-top: 10px;
+}
+
+.revenue-tab-content.active {
+  display: block;
 }

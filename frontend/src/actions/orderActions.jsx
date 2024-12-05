@@ -155,7 +155,7 @@ export const allOrders = (currentPage = 1, keyword = "", status = "all", resPerP
     dispatch({ type: ALL_ORDERS_REQUEST });
 
     const { data } = await axios.get(`/api/v1/shop/orders?page=${currentPage}&keyword=${keyword}&orderStatus=${status}&resPerPage=${resPerPage}`);
-
+console.log("data",data);
     dispatch({
       type: ALL_ORDERS_SUCCESS,
       payload: {

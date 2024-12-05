@@ -4,7 +4,7 @@ const ErrorHandler = require("../utils/errorHandler");
 const catchAsyncErrors = require("../middlewares/catchAsyncErrors");
 const APIFeatures = require("../utils/apiFeatures");
 const Cart = require("../models/cart");
-const order = require("../models/order");
+const Shop = require("../models/shop");
 
 exports.newOrder = catchAsyncErrors(async (req, res, next) => {
   const {
@@ -122,46 +122,60 @@ exports.myOrders = catchAsyncErrors(async (req, res, next) => {
     orders,
   });
 });
-
 exports.allOrders = catchAsyncErrors(async (req, res, next) => {
- 
-  const apiFeatures = new APIFeatures(Order.find(), req.query)
-  .filterOrder()
-  .sort();
+  try {
+    // Lấy thông tin shop của user hiện tại dựa trên req.user.id
+    const shop = await Shop.findOne({ ownerId: req.user.id }).lean();
 
-  let orders = await apiFeatures.query;
-  const totalOrders =order.length;
-  apiFeatures.adminPagination();
-  orders= await  apiFeatures.query.clone();
-  
-  let totalAmount = 0;
-  let totalPaidAmount = 0;
-  let totalPendingAmount = 0;
+    if (!shop) {
+      return next(new ErrorHandler('Shop not found for this user', 404));
+    }
 
-  // Calculate totals for all orders (not just the current page)
-  // const all = await Order.find();
-  // all.forEach((order) => {
-  //   if (order.orderStatus === "canceled") {
-  //     return;
-  //   }
-  //   totalAmount += order.totalPrice;
+    // Lấy shopId từ thông tin shop
+    const shopId = shop._id;
 
-  //   if (order.paymentInfo && order.paymentInfo.status === "succeeded") {
-  //     totalPaidAmount += order.totalPrice;
-  //   } else {
-  //     totalPendingAmount += order.totalPrice;
-  //   }
-  // });
+    // Lọc đơn hàng theo shopId
+    const apiFeatures = new APIFeatures(Order.find({ shopId }), req.query)
+      .filterOrder()
+      .sort();
 
-  res.status(200).json({
-    success: true,
-    // totalAmount,
-    // totalPaidAmount,
-    // totalPendingAmount,
-    orders,
-    totalOrders,
-  });
+    let orders = await apiFeatures.query;
+    const totalOrders = orders.length;
+
+    apiFeatures.adminPagination();
+    orders = await apiFeatures.query.clone();
+
+    let totalAmount = 0;
+    let totalPaidAmount = 0;
+    let totalPendingAmount = 0;
+
+    // Tính toán tổng số tiền cho tất cả các đơn hàng
+    orders.forEach((order) => {
+      if (order.orderStatus === "canceled") {
+        return;
+      }
+      totalAmount += order.totalPrice;
+
+      if (order.paymentInfo && order.paymentInfo.status === "succeeded") {
+        totalPaidAmount += order.totalPrice;
+      } else {
+        totalPendingAmount += order.totalPrice;
+      }
+    });
+
+    res.status(200).json({
+      success: true,
+      totalAmount,
+      totalPaidAmount,
+      totalPendingAmount,
+      orders,
+      totalOrders,
+    });
+  } catch (error) {
+    next(error);
+  }
 });
+
 
 exports.updateOrder = catchAsyncErrors(async (req, res, next) => {
   const order = await Order.findById(req.params.id);

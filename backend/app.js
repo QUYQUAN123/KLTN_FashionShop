@@ -71,6 +71,8 @@ const coupon = require("./routes/coupon");
 const notification = require("./routes/notification");
 const shop = require("./routes/shop");
 const chat =require("./routes/chatbox")
+const statisticsRoutes = require('./routes/statistics');
+
 app.use("/api/v1", products);
 app.use("/api/v1", auth);
 app.use("/api/v1", order);
@@ -82,6 +84,7 @@ app.use("/api/v1", coupon);
 app.use("/api/v1", notification);
 app.use("/api/v1", shop);
 app.use('/api/v1', chat);
+app.use('/api/v1', statisticsRoutes);
 
 
 app.use(errorMiddlewares);

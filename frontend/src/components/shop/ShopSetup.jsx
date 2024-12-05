@@ -4,7 +4,7 @@ import { getShopProducts } from "../../actions/productActions";
 import Section from "./section/Section";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { getShop } from "../../actions/shopActions";
+import { getShop , getShopById,getProductsByShopId} from "../../actions/shopActions";
 import Product from "../product/Product";
 import ManageSection from "./section/ManageSection";
 import { getCategoryAll } from "../../actions/categoryActions";
@@ -12,22 +12,35 @@ import ChangeAvatar from "./ChangeAvatar";
 import ChangeCover from "./ChangeCover";
 
 const ShopSetup = () => {
-  const { products } = useSelector((state) => state.shopProducts);
-  const { shop, shopData } = useSelector((state) => state.shop);
+  // const { products } = useSelector((state) => state.shopProducts);
+  const { shop, shopData,products } = useSelector((state) => state.shop);
   const { categories } = useSelector((state) => state.category);
 
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
   const [changeAvatar, setChangeAvatar] = useState(false);
   const [changeCover, setChangeCover] = useState(false);
+  const shopId = localStorage.getItem("shopid");
+  console.log("Stored Shop ID:", shopId); // In ra giá trị shopid đã lưu
+  useEffect(() => {
+    dispatch(getShopById(shopId));
+    
+    
+  }, [dispatch]); 
+
 
   useEffect(() => {
-    dispatch(getShop());
-    dispatch(getShopProducts(shop._id));
+   
+    dispatch(getShopProducts(shopId));
     dispatch(getCategoryAll());
   }, []);
+
+  
   const handleChangeCover = () => {
     setChangeCover(true); 
+  };
+  const handleChangeAvatar = () => {
+    setChangeAvatar(true);
   };
 
   useEffect(() => {
@@ -42,93 +55,71 @@ const ShopSetup = () => {
   return (
     <>
       <ToastContainer />
-      {show && (
-        <ManageSection
-          onClose={() => setShow(false)}
-          shop={shop}
-          categories={categories}
-        />
-      )}
+
       {changeAvatar && (
-        <ChangeAvatar
-          onClose={() => setChangeAvatar(false)}
-          avatar={shop.avatar}
-        />
+        <ChangeAvatar onClose={() => setChangeAvatar(false)} avatar={shop.avatar} />
       )}
       {changeCover && (
-        <ChangeCover
-          onClose={() => setChangeCover(false)} 
-          cover={shop.cover}
-        />
+        <ChangeCover onClose={() => setChangeCover(false)} cover={shop.cover} />
       )}
-      <div className="shop-setup-container">
-      <div className="cover-container">
-              {shop && shop.cover && (
-                <img
-                  className="shop-cover-img"
-                  src={shop.cover.url}
-                  alt="Ảnh Bìa"
-                />
-              )}
-              <i
-                className="fa fa-edit"
-                onClick={() => setChangeCover(true)} 
+      <div className="shop-home-container">
+      <div className="cover-shophome">
+      {shop && shop.cover && (
+            <img
+              className="shop-cover-img"
+              src={shop.cover.url}
+              alt="Ảnh Bìa"
+              onClick={handleChangeCover}
+            />
+          )}
+          <figure className="avatar-shophome">
+            {shop && shop.avatar && (
+              <img
+                className="rounded-circle img-fluid"
+                src={shop.avatar.url}
+                alt="Ảnh Đại Diện"
+                onClick={handleChangeAvatar}
               />
-    
-            <figure className="avatar">
-              {shop && shop.avatar && (
-                <img
-                  className="rounded-circle img-fluid"
-                  src={shop.avatar.url}
-                  alt="Ảnh Đại Diện"
-                />
-              )}
-              <i className="fa fa-edit" onClick={() => setChangeAvatar(true)} />
-            </figure>
-            {shopData && shopData.shopInfor && (
-              <h1 key="shop-name">{shopData.shopInfor.ownerName}</h1>
             )}
-            {shopData && shopData.shopInfor && (
-  <h1 key="shop-name">{shopData.shopInfor.shopName}</h1>
-)}
+          </figure>
+        </div>  
+        <div className="shop-name">
+        <h1>{shop.shopName}</h1> {/* Hiển thị tên cửa hàng */}
+      </div>
 
-       </div>
-      
-        <div className="shop-setup-body-container">
-          <button className="fa fa-gear" onClick={() => setShow(true)}>
-            Điều chỉnh danh mục
-          </button>
-          <div className="shop-setup-sections">
-            {shop &&
-              shop.sections &&
-              shop.sections.map((section, sectionIndex) => (
-                <div
-                  key={`section-${sectionIndex}`}
-                  className="shop-setup-section"
-                >
-                  <div>
-                    {section.images &&
-                      section.images.map((image, imageIndex) => (
-                        <img
-                          key={`image-${sectionIndex}-${imageIndex}`}
-                          src={image.url}
-                          alt={`Section ${sectionIndex} Image ${imageIndex}`}
-                        />
-                      ))}
-                  </div>
-                  <div className="home-component">
-                    <h1>{section.name}</h1>
-                    <div className="home-new-products">
-                      {section.products.slice(0, 4).map((product) => (
-                        <Product key={product._id} product={product} />
-                      ))}
-                    </div>
-                    <button className="more-text-btn">Xem Thêm</button>
-                  </div>
-                </div>
-              ))}
-          </div>
-        </div>
+      <div className="shop-details-box">
+            <h3 className="shop-title">Thông tin cửa hàng</h3>
+            <div className="shop-detail-item">
+              <strong>Địa chỉ:</strong>{" "}
+              {shop && shop.pickupAddress && shop.pickupAddress.address.detailed},{" "}
+              {shop && shop.pickupAddress && shop.pickupAddress.address.ward},{" "}
+              {shop && shop.pickupAddress && shop.pickupAddress.address.district},{" "}
+              {shop && shop.pickupAddress && shop.pickupAddress.address.province}
+            </div>
+            <div className="shop-detail-item">
+              <strong>Số điện thoại:</strong> {shop && shop.pickupAddress && shop.pickupAddress.contactPhone}
+            </div>
+            <div className="shop-detail-item">
+              <strong>Liên hệ:</strong> {shop && shop.pickupAddress && shop.pickupAddress.contactName}
+            </div>
+
+
+            </div>
+
+          {/* <div className="home-component">
+              <h3>Sản phẩm của cửa hàng:</h3>
+              <div className="home-new-products">
+              {products.length > 0 ? (
+                products.map((product) => (
+                  <Product key={product._id} product={product} />
+               ))
+               ) : (
+                  <p>Không có sản phẩm nào trong cửa hàng.</p>
+                )}
+              </div>
+                 <button className="more-text-btn">Xem Thêm</button>
+              </div> */}
+  
       </div>
     </>
   );
