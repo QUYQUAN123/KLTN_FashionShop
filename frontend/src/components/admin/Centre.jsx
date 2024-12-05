@@ -24,6 +24,7 @@ const Centre = () => {
       "/admin/categories",
       "/admin/products",
       "/admin/coupons",
+      "/admin/coupon",
     ];
     return sidebarPaths.some((path) => location.pathname.startsWith(path));
   }, [location.pathname]);

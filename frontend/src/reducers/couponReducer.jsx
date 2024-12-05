@@ -24,11 +24,18 @@ import {
     GET_ACTIVE_COUPONS_FAIL,
     GET_COUPONS_ON_SHOP_REQUEST,
     GET_COUPONS_ON_SHOP_SUCCESS,
-    GET_COUPONS_ON_SHOP_FAIL
+    GET_COUPONS_ON_SHOP_FAIL,
+    GET_COUPONS_BY_SHOPID
   } from "../constants/couponConstants";
   
-  export const couponReducer = (state = { coupons: [] }, action) => {
+  export const couponReducer = (state = { coupons: [],couponsByShop: [], }, action) => {
     switch (action.type) {
+      case GET_COUPONS_BY_SHOPID:
+        return {
+          ...state,
+          couponsByShop: action.payload,  
+        };
+      
       case GET_ALL_COUPONS_REQUEST:
         return {
           ...state,

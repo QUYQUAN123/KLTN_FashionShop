@@ -4512,13 +4512,17 @@ body {
   border-radius: 10px;
 }
 
-/* Các phần CSS khác giữ nguyên */
+.shop-coupon {
+  background-color: #e6f5b5; 
+  border: 1px solid #FFD700; 
+}
+
 
 .coupon-table {
   background-color: white;
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
   margin-bottom: 20px;
 }
 
@@ -4534,6 +4538,24 @@ body {
   overflow: hidden;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+.containerNewCoupon {
+  display: flex;
+  flex-direction: column;   /* Xếp các phần tử theo chiều dọc */
+  justify-content: center;  /* Căn giữa theo chiều dọc */
+  align-items: flex-start;  /* Căn về phía trái (trục ngang) */
+  padding-left: 250px;      /* Căn nội dung cách 100px từ bên trái */
+  height: 100vh;            /* Chiều cao của thẻ container bằng 100% chiều cao màn hình */
+}
+
+.coupon-category {
+  font-size: 16px;                /* Cỡ chữ */
+  color: #de26cb;                 /* Màu vàng (bạn có thể thay đổi mã màu nếu muốn) */
+  text-align: center;             /* Căn giữa chữ */
+  margin-top: 10px;               /* Khoảng cách từ trên xuống */
+  font-weight: bold;              /* Nếu muốn chữ đậm */
+}
+
+
 
 .coupon-row {
   display: flex;
@@ -4547,9 +4569,16 @@ body {
   border-bottom: none;
 }
 
+
 .coupon-row.selected {
-  background-color: #f5f5f5;
+  width: 100%;  /* Đảm bảo phần tử chiếm toàn bộ chiều rộng */
+  height: auto;
+  border: 3px solid #4caf50;  
+  border-radius: 10px;  
+  box-sizing: border-box;     
 }
+
+
 
 .coupon-content {
   display: flex;
@@ -4562,6 +4591,7 @@ body {
   font-weight: bold;
   color: #4caf50;
   margin-right: 20px;
+  text-align: center; 
 }
 
 .coupon-description {
@@ -4626,9 +4656,7 @@ body {
   border-bottom: none;
 }
 
-.coupon-row.selected {
-  background-color: #f5f5f5;
-}
+
 
 .coupon-content {
   display: flex;
@@ -4636,12 +4664,7 @@ body {
   flex-grow: 1;
 }
 
-.coupon-percentage {
-  font-size: 36px;
-  font-weight: bold;
-  color: #4caf50;
-  margin-right: 20px;
-}
+
 
 .coupon-details {
   flex-grow: 1;

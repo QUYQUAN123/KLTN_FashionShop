@@ -16,6 +16,7 @@ import { formatToVNDWithVND } from "../../utils/formatHelper";
 import Header from "../layout/Header";
 import DisplayCoupons from "./DisplayCoupons";
 
+
 const Cart = () => {
   const history = useNavigate();
   const dispatch = useDispatch();
@@ -24,21 +25,24 @@ const Cart = () => {
   const [selected, setSelected] = useState([]);
   const [all, setAll] = useState(false);
   const [appliedCoupons, setAppliedCoupons] = useState([]);
-
   const { cartItems } = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.auth);
 
   const [showCoupons, setShowCoupons] = useState(false);
 
+
+  const [selectedShop, setSelectedShop] = useState(null);
+ 
+
+
   const handleCloseCoupons = (selectedCoupons) => {
     setShowCoupons(false);
     if (selectedCoupons && selectedCoupons.length > 0) {
       setAppliedCoupons(selectedCoupons);
-
-      // Tính toán giá đã giảm
       localStorage.setItem("appliedCoupons", JSON.stringify(selectedCoupons));
     }
   };
+
 
   const calculateDiscountedPrice = (item) => {
     let discountedPrice = item.price;
@@ -89,11 +93,13 @@ const Cart = () => {
     }
     dispatch(getUserCart());
     setSelected([]);
+    setSelectedShop(null);
     setShow(false);
   };
 
-  const increaseQty = async (index) => {
-    const choosed = cartItems[index];
+  const increaseQty = async (shopId,index) => {
+    const itemsInShop = cartItems.filter(item => item.shopId === shopId);
+    const choosed = itemsInShop[index];
 
     const item = {
       product: choosed.product,
@@ -118,8 +124,10 @@ const Cart = () => {
     }
   };
 
-  const decreaseQty = async (index) => {
-    const choosed = cartItems[index];
+  const decreaseQty = async (shopId,index) => {
+    const itemsInShop = cartItems.filter(item => item.shopId === shopId);
+    const choosed = itemsInShop[index];
+
 
     const item = {
       product: choosed.product,
@@ -151,7 +159,6 @@ const Cart = () => {
   const checkoutHandler = async () => {
     const discountedTotalPrice = calculateTotalPrice();
     localStorage.setItem("discountedTotalPrice", discountedTotalPrice);
-    console.log("discountedTotalPrice", discountedTotalPrice);
     const itemsToCheckout = cartItems.filter(
       (item, index) => selectedItems[index]
     );
@@ -181,16 +188,56 @@ const Cart = () => {
     }
   };
 
-  const handleCheckboxChange = (index) => {
+
+
+
+  // const handleCheckboxChange = (index) => {
+  //   const newSelectedItems = [...selectedItems];
+  //   newSelectedItems[index] = !newSelectedItems[index];
+  //   setSelectedItems(newSelectedItems);
+  //   if (newSelectedItems[index] === true) {
+  //     setSelected((prev) => [...prev, cartItems[index]]);
+  //   } else {
+  //     setSelected((prev) => prev.filter((item) => item !== cartItems[index]));
+  //   }
+  // };
+  const handleCheckboxChange = (shopId, index) => {
+    // Create a new selectedItems array
     const newSelectedItems = [...selectedItems];
-    newSelectedItems[index] = !newSelectedItems[index];
-    setSelectedItems(newSelectedItems);
-    if (newSelectedItems[index] === true) {
-      setSelected((prev) => [...prev, cartItems[index]]);
-    } else {
-      setSelected((prev) => prev.filter((item) => item !== cartItems[index]));
+    
+    // If no shop is selected or the current shop is already selected
+    if (!selectedShop || selectedShop === shopId) {
+      // Toggle the specific item's selection
+      newSelectedItems[index] = !newSelectedItems[index];
+      setSelectedItems(newSelectedItems);
+      
+      // Update the selected items
+      if (newSelectedItems[index] === true) {
+        setSelected((prev) => [...prev, cartItems[index]]);
+        // Set the selected shop if not already set
+        if (!selectedShop) {
+          setSelectedShop(shopId);
+        }
+      } else {
+        setSelected((prev) => prev.filter((item) => item !== cartItems[index]));
+        
+        // If no items are selected for this shop, reset the selectedShop
+        const shopItems = groupedByShop[shopId];
+        const isAnyShopItemSelected = shopItems.some((_, idx) => newSelectedItems[cartItems.indexOf(shopItems[idx])]);
+        if (!isAnyShopItemSelected) {
+          setSelectedShop(null);
+        }
+      }
     }
   };
+
+
+
+
+
+
+
+
 
   const Choose = (value) => {
     setAll(value);
@@ -209,16 +256,21 @@ const Cart = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [currentItemIndex, setCurrentItemIndex] = useState(null);
   const [newQuantity, setNewQuantity] = useState();
-  const openModal = (index) => {
+  
+  const openModal = (shopId, index) => {
     setCurrentItemIndex(index);
-    setNewQuantity(cartItems[index].quantity);
+    const itemsInShop = cartItems.filter(item => item.shopId === shopId);
+    setNewQuantity(itemsInShop[index].quantity);
     setModalIsOpen(true);
+    setSelectedShop(shopId);
   };
 
   const closeModal = () => {
     setModalIsOpen(false);
     setCurrentItemIndex(null);
   };
+
+
   const updateQuantity = async () => {
     if (currentItemIndex === null) return;
     let inputValue = parseInt(newQuantity);
@@ -226,7 +278,8 @@ const Cart = () => {
       toast.error("Vui lòng nhập lại số lượng hợp lệ");
       return;
     }
-    const choosed = cartItems[currentItemIndex];
+    const itemsInShop = cartItems.filter(item => item.shopId === selectedShop);
+    const choosed = itemsInShop[currentItemIndex];
 
     const item = {
       product: choosed.product,
@@ -252,6 +305,29 @@ const Cart = () => {
     }
   };
 
+  const groupedByShop = cartItems.reduce((groups, item) => {
+    const { shopId } = item;
+  
+    // Kiểm tra nếu shopId đã tồn tại trong nhóm, nếu chưa thì khởi tạo mảng trống
+    if (!groups.hasOwnProperty(shopId)) {
+      groups[shopId] = [];
+    }
+  
+    // Thêm sản phẩm vào nhóm của shopId
+    groups[shopId].push(item);
+  
+    return groups;
+  }, {});
+  
+  
+  // Lấy các shopId đã nhóm
+  const shopIds = Object.keys(groupedByShop);
+
+console.log("shopIds",shopIds);
+console.log("cartItems",cartItems);
+
+  
+  
   return (
     <Fragment>
       <Header />
@@ -269,12 +345,12 @@ const Cart = () => {
                     <h2 className="cart-status">
                       Giỏ Hàng có: <b>{cartItems.length} Sản Phẩm</b>
                     </h2>
-                    <button
+                    {/* <button
                       className={`cart-select-all-btn ${all && "active"}`}
                       onClick={() => Choose(!all)}
                     >
                       {all ? "Bỏ Chọn Tất Cả" : "Chọn Tất Cả"}
-                    </button>
+                    </button> */}
                     {selected.length > 0 && (
                       <button
                         className={`cart-select-all-btn ${all && "active"}`}
@@ -284,7 +360,14 @@ const Cart = () => {
                       </button>
                     )}
                   </div>
-                  {cartItems.map((item, index) => (
+
+
+            {shopIds.map((shopId) => (
+              <div key={shopId}>
+                <h2>
+                  Tên cửa hàng {groupedByShop[shopId][0].shopName}
+                </h2>
+                  {groupedByShop[shopId].map((item, index) => (
                     <div key={index}>
                       <div className="cart-item">
                         <div className="item-of-cart">
@@ -378,19 +461,19 @@ const Cart = () => {
                                     type="text"
                                     className=""
                                     value={item.quantity}
-                                    onClick={() => openModal(index)}
+                                    onClick={() => openModal(shopId, groupedByShop[shopId].indexOf(item))}
                                     onBlur={(e) => handleBlur(e)}
                                     readOnly
                                   />
                                   <span
                                     className="cart-item-btn minus"
-                                    onClick={() => decreaseQty(index)}
+                                    onClick={() => decreaseQty(shopId, groupedByShop[shopId].indexOf(item))}
                                   >
                                     -
                                   </span>
                                   <span
                                     className="cart-item-btn plus"
-                                    onClick={() => increaseQty(index)}
+                                    onClick={() => increaseQty(shopId, groupedByShop[shopId].indexOf(item))}
                                   >
                                     +
                                   </span>
@@ -412,12 +495,12 @@ const Cart = () => {
                                     />
 
                                     <div className="input-quantity-btn-container">
-                                      <button
-                                        className="input-quantity-btn-container-yes"
-                                        onClick={updateQuantity}
-                                      >
-                                        Câp Nhật
-                                      </button>
+                                    <button
+                                      className="input-quantity-btn-container-yes"
+                                      onClick={() => updateQuantity()}
+                                    >
+                                      Cập Nhật
+                                    </button>
                                       <button
                                         className="input-quantity-btn-container-no"
                                         onClick={closeModal}
@@ -437,15 +520,13 @@ const Cart = () => {
                                 }}
                               >
                                 <input
-                                  type="checkbox"
-                                  checked={selectedItems[index]}
-                                  onChange={() => handleCheckboxChange(index)}
-                                  className="cart-checkbox"
-                                />
-                                {/* <i
-                                  className="fa fa-trash cart-delete-btn"
-                                  onClick={() => setShow(true)}
-                                ></i> */}
+                                    type="checkbox"
+                                    checked={selectedItems[cartItems.indexOf(item)]}
+                                    onChange={() => handleCheckboxChange(shopId, cartItems.indexOf(item))}
+                                    disabled={selectedShop && selectedShop !== shopId}
+                                    className="cart-checkbox"
+                                  />
+                                                      
                               </div>
                             </div>
                           </div>
@@ -461,6 +542,9 @@ const Cart = () => {
                     </div>
                   ))}
                 </div>
+                ))}
+                </div>
+
 
                 <div className="cart-checkout-container">
                   <strong>

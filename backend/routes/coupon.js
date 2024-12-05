@@ -8,6 +8,7 @@ const {
     toggleStatus,
     getActiveCoupons,
     getCouponsOnShop,
+    getCouponsByShopId,
 
 } = require('../controllers/couponController');
 const { isAuthenticatedUser, authorizeRoles } = require("../middlewares/auth");
@@ -20,4 +21,5 @@ router.route('/coupon/toggle-status/:couponId').put(toggleStatus);
 router.route('/coupons/active').get(getActiveCoupons);
 
 router.route('/coupon/getCouponOnShop').get(isAuthenticatedUser,getCouponsOnShop);
+router.route('/coupon/getCouponsByShopId/:shopId').get(isAuthenticatedUser,getCouponsByShopId);
 module.exports = router;

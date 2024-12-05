@@ -22,7 +22,9 @@ import {
     GET_ACTIVE_COUPONS_FAIL,
     GET_COUPONS_ON_SHOP_REQUEST,
     GET_COUPONS_ON_SHOP_SUCCESS,
-    GET_COUPONS_ON_SHOP_FAIL
+    GET_COUPONS_ON_SHOP_FAIL,
+
+    GET_COUPONS_BY_SHOPID,
 } from '../constants/couponConstants';
 
 // Create Coupon
@@ -178,3 +180,22 @@ export const getAllCoupons = (currentPage = 1, keyword = "", status = "all", rol
         }
       };
       
+
+
+
+
+export const getCouponsByShopId = (shopId) => async (dispatch) => {
+  try {
+    const response = await axios.get(`/api/v1/coupon/getCouponsByShopId/${shopId}`);
+
+    dispatch({
+      type: GET_COUPONS_BY_SHOPID,
+      payload: response.data.coupons,
+    });
+  } catch (error) {
+    dispatch({
+      type: CLEAR_ERRORS,
+      payload: error.response.data.message || 'Error while fetching coupons',
+    });
+  }
+};

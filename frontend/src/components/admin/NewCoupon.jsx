@@ -86,9 +86,9 @@ const NewCoupon = () => {
 
   return (
     <Fragment>
-      <div className="container container-fluid">
+      <div className="containerNewCoupon container-fluid">
         <div className="wrapper my-5">
-          <form className="shadow-lg" onSubmit={submitHandler}>
+          <form className="shadow-lg"  onSubmit={submitHandler}>
             <h1 className="mb-4">Thêm phiếu giảm giá</h1>
 
             <div className="form-group">

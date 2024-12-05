@@ -123,7 +123,7 @@ exports.toggleStatus = catchAsyncErrors(async (req, res, next) => {
 
 
 exports.getActiveCoupons = catchAsyncErrors(async (req, res, next) => {
-  const coupons = await Coupon.find({ status: 'active' });
+  const coupons = await Coupon.find({role:'admin', status: 'active' });
 
   if (!coupons) {
       return next(new ErrorHandler('No active coupons found', 404));
@@ -134,6 +134,8 @@ exports.getActiveCoupons = catchAsyncErrors(async (req, res, next) => {
       coupons
   });
 });
+
+
 
 
 exports.getCouponsOnShop = catchAsyncErrors(async (req, res, next) => {
@@ -175,4 +177,29 @@ let query = Coupon.find({ creatorId });
 });
 
 
+exports.getCouponsByShopId = catchAsyncErrors(async (req, res, next) => {
+  const { shopId } = req.params;
+  console.log("shopid",shopId);
+  if (!shopId) {
+    return res.status(400).json({
+      success: false,
+      message: "Shop ID is required."
+    });
+  }
+  const shop = await Shop.findOne({ _id: shopId });
 
+  if (!shop) {
+    return res.status(404).json({
+      success: false,
+      message: "Shop not found."
+    });
+  }
+
+  const creatorId = shop.ownerId; 
+  const coupons = await Coupon.find({ creatorId , status: "active"});
+
+  res.status(200).json({
+    success: true,
+    coupons,
+  });
+});
