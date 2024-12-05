@@ -35,6 +35,7 @@ const Cart = () => {
  
 
 
+
   const handleCloseCoupons = (selectedCoupons) => {
     setShowCoupons(false);
     if (selectedCoupons && selectedCoupons.length > 0) {
@@ -44,33 +45,142 @@ const Cart = () => {
   };
 
 
-  const calculateDiscountedPrice = (item) => {
-    let discountedPrice = item.price;
-    appliedCoupons.forEach((coupon) => {
-      if (coupon.target.ids.includes(item.category)) {
-        discountedPrice -= (discountedPrice * coupon.percentage) / 100;
+
+let totalAdminDiscountAmount = 0;
+
+// Hàm tính tổng giá cho 1 danh mục
+
+const calculateCategoryTotalPrice = (itemsInCategory) => {
+  return itemsInCategory.reduce((total, item) => total + (item.price * item.quantity), 0);
+};
+
+
+
+// Hàm tính giảm giá shopkeeper cho 1 danh mục
+const applyShopkeeperDiscount = (categoryTotalPrice, category) => {
+  let discountedPrice = categoryTotalPrice;
+  
+  appliedCoupons.forEach((coupon) => {
+    if (coupon.role === 'shopkeeper' && coupon.target.ids.includes(category)) {
+      let discountAmount = (discountedPrice * coupon.percentage) / 100;
+
+      // Kiểm tra giới hạn giảm giá tối đa (maxDiscount)
+      if (coupon.maxDiscount) {
+        discountAmount = Math.min(discountAmount, coupon.maxDiscount);
       }
-    });
-    return discountedPrice;
+      
+      discountedPrice -= discountAmount;  // Trừ đi giảm giá của shopkeeper
+    }
+  });
+  
+  return discountedPrice;
+};
+// Hàm tính giảm giá admin cho 1 danh mục
+const applyAdminDiscount = (remainingPriceAfterShopDiscount, category) => {
+  let finalDiscountedPrice = remainingPriceAfterShopDiscount;
+  appliedCoupons.forEach((coupon) => {
+    if (coupon.role === 'admin' && coupon.target.ids.includes(category)) {
+      let discountAmount = (finalDiscountedPrice * coupon.percentage) / 100;
+
+      if (coupon.maxDiscount) {
+        discountAmount = Math.min(discountAmount, coupon.maxDiscount);
+      }
+      finalDiscountedPrice -= discountAmount;  
+     
+    }
+
+  });
+  return finalDiscountedPrice;
+};
+
+const calculateTotalPrice = () => {
+  let total = 0;
+  let AdminDiscount = 0;
+  const groupedItems = selected.reduce((acc, item) => {
+    if (!acc[item.category]) acc[item.category] = [];
+    acc[item.category].push(item);
+    return acc;
+  }, {});
+
+  for (const category in groupedItems) {
+    const itemsInCategory = groupedItems[category];
+    const categoryTotalPrice = calculateCategoryTotalPrice(itemsInCategory);
+    const priceAfterShopDiscount = applyShopkeeperDiscount(categoryTotalPrice, category);
+    const finalPriceForCategory = applyAdminDiscount(priceAfterShopDiscount, category);
+    AdminDiscount+=priceAfterShopDiscount-finalPriceForCategory;
+    total += finalPriceForCategory;
+  }
+console.log("disamin",AdminDiscount);
+totalAdminDiscountAmount=AdminDiscount;
+  return total;
+};
+
+
+const calculateTotalDiscount = () => {
+  let totalDiscount = 0;
+
+  const groupedItems = selected.reduce((acc, item) => {
+    if (!acc[item.category]) acc[item.category] = [];
+    acc[item.category].push(item);
+    return acc;
+  }, {});
+
+  // Lặp qua các danh mục để tính tổng số tiền giảm
+  for (const category in groupedItems) {
+    const itemsInCategory = groupedItems[category];
+
+    // Tính tổng tiền của danh mục này
+    const categoryTotalPrice = calculateCategoryTotalPrice(itemsInCategory);
+    
+    // Áp dụng giảm giá của shopkeeper
+    const priceAfterShopDiscount = applyShopkeeperDiscount(categoryTotalPrice, category);
+    
+    const finalPriceForCategory = applyAdminDiscount(priceAfterShopDiscount, category);
+
+    // Tính số tiền giảm của danh mục này
+    const categoryDiscount = categoryTotalPrice - finalPriceForCategory;
+    totalDiscount += categoryDiscount;
+  }
+
+  return totalDiscount;
+};
+
+const calculateRevenue = () => {
+  const shopId = selected[0].shopId;
+  const totalPriceAfterDiscount = calculateTotalPrice();
+  const totalAdminDiscount = totalAdminDiscountAmount;
+  const revenueAdmin = totalPriceAfterDiscount * 0.10;
+  const revenueShopkeeper = totalPriceAfterDiscount * 0.90 + totalAdminDiscount;
+  const finalAmountForAdmin = revenueAdmin - totalAdminDiscount;
+  const revenueData = {
+    shopId,
+    totalPriceAfterDiscount,
+    totalAdminDiscount,
+    revenueAdmin,
+    revenueShopkeeper,
+    finalAmountForAdmin
   };
 
-  const calculateTotalPrice = () => {
-    const total = selected.reduce((acc, item) => {
-      const discountedPrice = calculateDiscountedPrice(item);
-      return acc + discountedPrice * item.quantity;
-    }, 0);
-    return total;
-  };
+  localStorage.setItem('revenueData', JSON.stringify(revenueData));
+  console.log("revenueData",revenueData);
+  return revenueData;
+};
 
-  const calculateTotalDiscount = () => {
-    return selected.reduce((acc, item) => {
-      const originalPrice = item.price * item.quantity;
-      const discountedPrice = calculateDiscountedPrice(item) * item.quantity;
-      return acc + (originalPrice - discountedPrice);
-    }, 0);
-  };
+
+
+
+
+
+
+
+
+
+
+
 
   const handleCouponsClick = async () => {
+
+
     const itemsToCoupon = cartItems
       .filter((item, index) => selectedItems[index])
       .map((item) => ({
@@ -80,8 +190,8 @@ const Cart = () => {
     try {
       await dispatch(checkCartQuantities(itemsToCoupon));
       localStorage.setItem("itemsToCoupon", JSON.stringify(itemsToCoupon));
-      console.log("itemsToCouponcart", itemsToCoupon);
       setShowCoupons(!showCoupons);
+      console.log("calculateRevenue();",calculateRevenue());
     } catch (error) {
       toast.error(error); // Display the error message from the action
     }
@@ -157,19 +267,30 @@ const Cart = () => {
   };
 
   const checkoutHandler = async () => {
-    const discountedTotalPrice = calculateTotalPrice();
-    localStorage.setItem("discountedTotalPrice", discountedTotalPrice);
+    calculateRevenue();
+    const totalPrice = selected.reduce((acc, item) => acc + item.price * item.quantity, 0);
+    const totalDiscount = calculateTotalDiscount();
+    const finalPrice = calculateTotalPrice();
+  
+    const orderSummary = {
+      totalPrice,
+      totalDiscount, 
+      finalPrice
+    };
+  
+    localStorage.setItem("orderSummary", JSON.stringify(orderSummary));
+    console.log("orderSummary",orderSummary);
     const itemsToCheckout = cartItems.filter(
       (item, index) => selectedItems[index]
     );
-
+  
     try {
       await dispatch(checkCartQuantities(itemsToCheckout));
       localStorage.setItem("itemsToCheckout", JSON.stringify(itemsToCheckout));
-      const discountedTotalPrice = calculateTotalPrice();
+      
       history("/login?redirect=/shipping", {
         state: {
-          totalPrice: discountedTotalPrice,
+          ...orderSummary,
           appliedCoupons: appliedCoupons,
         },
       });
@@ -269,8 +390,6 @@ const Cart = () => {
     setModalIsOpen(false);
     setCurrentItemIndex(null);
   };
-
-
   const updateQuantity = async () => {
     if (currentItemIndex === null) return;
     let inputValue = parseInt(newQuantity);
@@ -307,26 +426,16 @@ const Cart = () => {
 
   const groupedByShop = cartItems.reduce((groups, item) => {
     const { shopId } = item;
-  
-    // Kiểm tra nếu shopId đã tồn tại trong nhóm, nếu chưa thì khởi tạo mảng trống
     if (!groups.hasOwnProperty(shopId)) {
       groups[shopId] = [];
     }
-  
-    // Thêm sản phẩm vào nhóm của shopId
     groups[shopId].push(item);
   
     return groups;
   }, {});
   
-  
-  // Lấy các shopId đã nhóm
   const shopIds = Object.keys(groupedByShop);
 
-console.log("shopIds",shopIds);
-console.log("cartItems",cartItems);
-
-  
   
   return (
     <Fragment>

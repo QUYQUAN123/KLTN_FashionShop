@@ -39,6 +39,7 @@ const Payment = () => {
   const { user } = useSelector((state) => state.auth);
   const { cartItems, shippingInfo } = useSelector((state) => state.cart);
   const { error } = useSelector((state) => state.newOrder);
+  const revenue = JSON.parse(localStorage.getItem('revenueData'));
 
   useEffect(() => {
     if (error) {
@@ -51,8 +52,14 @@ const Payment = () => {
     userName: user.name,
     orderItems: cartItems,
     shippingInfo,
+    shopId:revenue.shopId,
+    revenueAdmin:revenue.revenueAdmin,
+    revenueShopkeeper:revenue.revenueShopkeeper,
+    
   };
+  console.log("order",order);
 
+ 
   const orderInfo = JSON.parse(sessionStorage.getItem("orderInfo"));
 
   if (orderInfo) {

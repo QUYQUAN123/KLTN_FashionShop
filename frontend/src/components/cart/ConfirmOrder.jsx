@@ -26,15 +26,22 @@ const ConfirmOrder = () => {
   const [items, setItems] = useState([]);
   const [infor, setInfor] = useState("");
 
-  const itemsPrice = items.reduce(
-    (total, item) => total + item.price * item.quantity,
-    0
-  );
-  const shippingPrice = itemsPrice > 200 ? 0 : 25;
+const [revenue, setRevenue] = useState({});
+const [orderSummary, setOrderSummary] = useState({});
+
+console.log("revenue",revenue);
+const { totalPrice: originalTotal, totalDiscount, finalPrice } = orderSummary;
+
+
+  const itemsPrice = orderSummary.totalPrice;
+
+  const shippingPrice = itemsPrice > 1000000 ? 0 : 30000;
+
   const taxPrice = Number((0.05 * itemsPrice).toFixed(2));
-  const discountedTotalPrice = localStorage.getItem('discountedTotalPrice');
-  const totalPrice = discountedTotalPrice ? parseFloat(discountedTotalPrice) : (itemsPrice + shippingPrice + taxPrice).toFixed(2);
-  const discountAmount = itemsPrice - totalPrice;
+ 
+
+  const totalPrice = finalPrice ? finalPrice + taxPrice : itemsPrice + shippingPrice + taxPrice;
+  const discountAmount = orderSummary.totalDiscount || 0;
 
   const checkQuantitiesBeforePayment = async () => {
     try {
@@ -68,6 +75,9 @@ const ConfirmOrder = () => {
         userName: user.name,
         orderItems: items,
         shippingInfo: infor,
+        shopId:revenue.shopId,
+        revenueAdmin:revenue.revenueAdmin,
+        revenueShopkeeper:revenue.revenueShopkeeper,
       };
   
       order.paymentInfo = {
@@ -80,7 +90,9 @@ const ConfirmOrder = () => {
       history("/waiting");
     }
   };
-  
+  console.log(revenue.shopId);             // Lấy ID của shop
+  console.log(revenue.revenueAdmin);       // Lấy doanh thu của admin
+  console.log(revenue.revenueShopkeeper);
   const processToCashPayment = async () => {
     if (await checkQuantitiesBeforePayment()) {
       const order = {
@@ -91,11 +103,14 @@ const ConfirmOrder = () => {
         userName: user.name,
         orderItems: items,
         shippingInfo: infor,
+        shopId:revenue.shopId,
+        revenueAdmin:revenue.revenueAdmin,
+        revenueShopkeeper:revenue.revenueShopkeeper,
       };
   
       order.paymentInfo = {
         id: generateRandomId(),
-        status: "Progress",
+        status: "succeeded",
       };
   
       dispatch(createOrder(order));
@@ -141,8 +156,21 @@ const ConfirmOrder = () => {
     } else {
       setInfor(shippingInfo);
     }
+
+  const storedRevenueData = JSON.parse(localStorage.getItem('revenueData')) || null;
+
+  if (storedRevenueData) {
+    console.log("Stored revenue data:", storedRevenueData);
+    setRevenue(storedRevenueData); // Cập nhật state revenue
+  }
+  const storedOrderSummary = JSON.parse(localStorage.getItem("orderSummary")) || {};
+  setOrderSummary(storedOrderSummary);
   }, [cartItems, shippingInfo]);
 
+
+  console.log(revenue.shopId);             // Lấy ID của shop
+console.log(revenue.revenueAdmin);       // Lấy doanh thu của admin
+console.log(revenue.revenueShopkeeper);
   return (
     <Fragment>
       <MetaData title={"Confirm Order"} />

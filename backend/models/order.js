@@ -116,6 +116,20 @@ const orderSchema = new mongoose.Schema({
     type: String,
     ref: "Shop",
   },
+  revenue: [
+    {
+      revenueAdmin: {
+        type: Number,
+        required: true,
+        default: 0.0,
+      },
+      revenueshopkeeper: {
+        type: Number,
+        required: true,
+        default: 0.0,
+      },
+    },
+  ],
   createAt: {
     type: Date,
     default: Date.now,

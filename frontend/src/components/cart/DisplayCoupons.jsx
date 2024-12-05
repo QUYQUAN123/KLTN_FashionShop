@@ -13,7 +13,13 @@ const DisplayCoupons = ({ onClose }) => {
     const { categories } = useSelector((state) => state.category);
     useEffect(() => {
         dispatch(getActiveCoupons());
-        dispatch(getCouponsByShopId("SHOP_1723385468288_gf585"));
+        const itemsToCoupon = JSON.parse(localStorage.getItem("itemsToCoupon")) || [];
+
+        if (itemsToCoupon.length > 0) {
+            const shopId = itemsToCoupon[0].shopId;  
+        
+            dispatch(getCouponsByShopId(shopId)); 
+        }
         dispatch(getCategoryAll());
     }, [dispatch]);
 
@@ -30,7 +36,7 @@ const DisplayCoupons = ({ onClose }) => {
                 return false;
             });
 
-            // Lọc coupon shop
+
             const shopCoupons = couponsByShop.filter(coupon => {
                 if (coupon.target && coupon.target.type === "category") {
                     return coupon.target.ids.some(id => categoryIds.includes(id));
@@ -73,7 +79,7 @@ const DisplayCoupons = ({ onClose }) => {
     };
     
     const getCategoryName = (categoryIds) => {
-        console.log("categoryIds", categoryIds);
+    
         const Category = categories.find(cat => categoryIds.includes(cat._id));
         return Category ? Category.vietnameseName : '';
     };
@@ -82,7 +88,6 @@ const DisplayCoupons = ({ onClose }) => {
 
     const handleApplyCoupons = () => {
         if (selectedCoupons.length > 0) {
-            console.log('Applied coupons:', selectedCoupons);
             onClose(selectedCoupons);
         } else {
             onClose(); 

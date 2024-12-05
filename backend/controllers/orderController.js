@@ -16,7 +16,12 @@ exports.newOrder = catchAsyncErrors(async (req, res, next) => {
     userName,
     totalPrice,
     paymentInfo,
+    revenueAdmin,  // Doanh thu admin đã được tính từ phía client
+    revenueShopkeeper, // Doanh thu của shopkeeper (cửa hàng) đã được tính từ phía client
+    shopId, // ID của shop
   } = req.body;
+
+  // Tạo đơn hàng và lưu doanh thu vào trường revenue
   const order = await Order.create({
     userName,
     orderItems,
@@ -27,8 +32,17 @@ exports.newOrder = catchAsyncErrors(async (req, res, next) => {
     totalPrice,
     paymentInfo,
     paidAt: Date.now(),
-    user: req.user._id,
+    user: req.user._id, // Lưu ID người dùng
+    shopId, // Lưu ID cửa hàng vào đơn hàng
+    revenue: [
+      {
+        revenueAdmin,
+        revenueshopkeeper: revenueShopkeeper, // Doanh thu shopkeeper
+      },
+    ],
   });
+
+  // Cập nhật kho và giỏ hàng sau khi tạo đơn hàng
   for (const item of orderItems) {
     await updateStock(item.product, item.variant, item.size, item.quantity);
     await updateCart(req.user._id, item.product, item.variant, item.size);
@@ -39,6 +53,7 @@ exports.newOrder = catchAsyncErrors(async (req, res, next) => {
     order,
   });
 });
+
 
 async function updateStock(id, variantId, size, quantity) {
   const product = await Product.findById(id);
