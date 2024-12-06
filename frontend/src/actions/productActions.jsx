@@ -52,7 +52,14 @@ export const getProducts =
   }) =>
   async (dispatch) => {
     try {
-      console.log("keyword api",keyword);
+      console.log("showhet",{
+        keyword,
+        currentPage,
+        resPerPage,
+        price,
+        category,
+        rating,
+      });
       dispatch({ type: ALL_PRODUCTS_REQUEST });
 
      

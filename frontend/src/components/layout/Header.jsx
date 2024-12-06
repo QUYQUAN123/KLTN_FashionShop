@@ -182,7 +182,7 @@ const Header = () => {
             <div className="Header-container-right">
               <Link to="/" style={{ textDecoration: "none" }}>
                 <div className="header-logo-container">
-                  <h1 className="header-logo-begin">SHOP</h1>
+                  <h1 className="header-logo-begin">Shop</h1>
                   <h1 className="header-logo-end">Go</h1>
                 </div>
               </Link>
@@ -261,6 +261,14 @@ const Header = () => {
                   </MenuItem>
                 ))}
               </Popper>
+              
+                <button
+                  onClick={() => history("/shop")}
+                  className={`Header-shop-link ${location.pathname === "/shop" ? "active" : ""}`}
+                >
+                  <i className="fa fa-cube"></i> {/* You can change the icon to fit your design */}
+                  <p>Sản Phẩm</p>
+                </button>
 
               <button
                 onClick={() => {

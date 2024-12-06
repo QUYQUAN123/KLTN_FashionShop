@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { getCategoryAll } from "../../actions/categoryActions";
 
 const Filter = ({
-  keyword,
+
   currentPage,
   setCurrentPage,
   selectedStar,
@@ -20,6 +20,8 @@ const Filter = ({
 }) => {
   const dispatch = useDispatch();
   const history = useNavigate();
+  const [keyword, setKeyword] = useState("");
+
 
   const { loading: productLoading, products } = useSelector(
     (state) => state.products
@@ -102,33 +104,42 @@ const Filter = ({
   }, [setSelectedCategory, setSelectedStar, setMinPrice, setMaxPrice]);
 
   const handleFiltering = useCallback(() => {
+    // Kiểm tra nếu giá min và max hợp lệ
     if (maxPrice !== "" && minPrice !== "") {
       if (minPrice > maxPrice) {
         toast.error("Giá thấp nhất phải nhỏ hơn giá cao nhất");
         return;
       }
     }
+  
+    console.log("Calling getProducts with params: ", {
+      keyword, 
+      currentPage: 1, // Cập nhật lại page nếu cần
+      price: [minPrice || 0, maxPrice || 1000000000], // Đảm bảo giá trị mặc định khi không có giá trị
+      category: selectedCategory || "", // Dùng giá trị mặc định khi không chọn danh mục
+      rating: selectedStar || 0, // Giá trị mặc định cho rating
+    });
+  
+    // Thiết lập lại trang hiện tại
     setCurrentPage(1);
-    history("/shop");
+  
+    // Gọi API với các tham số đã chọn
     dispatch(
-      getProducts(
-        keyword ? keyword : "",
-        1,
-        [minPrice ? minPrice : 0, maxPrice ? maxPrice : 1000000000],
-        selectedCategory ? selectedCategory : "",
-        selectedStar ? selectedStar : 0
-      )
-    );
-  }, [
-    dispatch,
-    history,
-    keyword,
-    maxPrice,
-    minPrice,
-    selectedCategory,
-    selectedStar,
-    setCurrentPage,
-  ]);
+      getProducts({
+        keyword: keyword || "",  // Nếu không có keyword, mặc định là ""
+        currentPage: 1,           // Đảm bảo page luôn là 1 khi lọc
+        resPerPage: 9,            // Đảm bảo số lượng sản phẩm mỗi trang
+        price: [minPrice || 0, maxPrice || 1000000000],  // Giá trị mặc định khi không có giá trị
+        category: selectedCategory || "",  // Dùng giá trị mặc định khi không có danh mục
+        rating: selectedStar || 0,  // Dùng giá trị mặc định khi không chọn xếp hạng
+      })
+    ).then(() => {
+      // Chỉ chuyển trang sau khi dữ liệu đã được lấy xong
+      history("/shop");
+    });
+  
+  }, [dispatch, history, keyword, maxPrice, minPrice, selectedCategory, selectedStar, setCurrentPage]);
+  
 
   return (
     <div className="shop-filter">

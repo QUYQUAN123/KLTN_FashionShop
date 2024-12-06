@@ -6,6 +6,8 @@ const Search = () => {
   const [keyword, setKeyword] = useState("");
   const [isActive, setIsActive] = useState(false);
 
+  console.log("searchkeyword",keyword);
+  
   const searchHandler = (e) => {
     e.preventDefault();
 
@@ -31,9 +33,9 @@ const Search = () => {
           }
         }}
       />
-      <button
-        onClick={() => {
-          searchHandler(e);
+     <button
+        onClick={(e) => {
+          searchHandler(e); // Truyền sự kiện e vào searchHandler
         }}
         onMouseDown={() => setIsActive(true)}
         onMouseUp={() => setIsActive(false)}
@@ -41,6 +43,7 @@ const Search = () => {
       >
         Tìm Kiếm
       </button>
+
     </form>
   );
 };

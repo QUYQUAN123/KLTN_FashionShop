@@ -5,6 +5,8 @@ import Product from "./product/Product";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
+
 import { getProducts } from "../actions/productActions";
 import "rc-slider/assets/index.css";
 import { useParams } from "react-router-dom"; 
@@ -36,22 +38,18 @@ const Shop = () => {
   }
   useEffect(() => {
     dispatch(getCategoryAll());
-  }, [dispatch]);
-  useEffect(() => {
-    if (category || keyword) {
-      setSelectedCategory(category);
-      setCurrentPage(1);
-      dispatch(
-        getProducts(
-          keyword ? keyword : "",
-          1,
-          [0, 1000000000],
-          category ? category : "",
-          0
-        )
-      );
-    }
-  }, [category, keyword]);
+    dispatch(getProducts({
+      keyword: keyword || "",
+      currentPage: currentPage,
+      resPerPage: resPerPage || 9,
+      price: [minPrice || 0, maxPrice || 1000000000],
+      category: selectedCategory || "",
+      rating: selectedStar || 0,
+    }));
+    
+  }, [dispatch,keyword]);
+  
+  
   const selectedCategoryName = categories.find(cat => cat._id === selectedCategory)?.vietnameseName || '';
 
 
