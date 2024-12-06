@@ -5,6 +5,7 @@ import { getShopById,getProductsByShopId } from "../../actions/shopActions";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Product from "../product/Product";
+import Header from "../layout/Header";
 
 const ShopHome = () => {
   const { id } = useParams(); 
@@ -18,7 +19,7 @@ const ShopHome = () => {
 
 
   return (
-    <>
+    <><Header />
       <ToastContainer />
       <div className="shop-home-container">
         <div className="cover-shophome">
