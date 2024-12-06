@@ -3926,6 +3926,34 @@ body {
   padding: 20px;
 }
 
+.shop-info-prodetail {
+  display: flex; /* Sử dụng flexbox để căn chỉnh các phần tử con */
+  align-items: center; /* Căn giữa các phần tử theo chiều dọc */
+}
+
+.shop-info-prodetail .avatar-shopdetail-prodetail {
+  align-items: center;
+}
+
+.shop-info-prodetail .avatar-shopdetail-prodetail img {
+  margin-left: 230px;
+  bottom: -50px; /* Đưa ảnh avatar ra ngoài ảnh bìa */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 5px solid #fff; /* Viền trắng cho avatar */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Tạo bóng cho avatar */
+}
+
+
+.shop-info-prodetail .shop-name-prodetail {
+  margin-bottom: 0; /* Loại bỏ khoảng cách dưới */
+  text-align: center; 
+ 
+}
 .shop-infor-form {
   display: grid;
   grid-template-columns: auto 1fr;

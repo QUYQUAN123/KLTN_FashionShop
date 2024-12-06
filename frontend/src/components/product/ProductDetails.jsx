@@ -228,7 +228,28 @@ const ProductDetails = () => {
               <ProductImageZoom image={activeImage} />
             </div>
           </div>
+
+       <div className="shop-info-prodetail">
+  {shop && shop.avatar && (
+    <Link to={`/shop/${product.shopId}`}>
+      <figure className="avatar-shopdetail-prodetail">
+        <img
+          className="rounded-circle img-fluid"
+          src={shopDetails.shop.avatar.url}
+          alt="Ảnh Đại Diện"
+        />
+      </figure>
+      <h2 className="shop-name-prodetail ml-3 mb-0">
+        Cửa hàng: {shop.shopName}
+      </h2>
+    </Link>
+  )}
+</div>
+
+
         </div>
+
+
 
         <div className="detail-content">
           <h1>{product.name}</h1>
@@ -384,22 +405,7 @@ const ProductDetails = () => {
         </div>
       </div>
 
-      <div className="shop-info">
-          {shop && shop.avatar && (
-            <Link to={`/shop/${product.shopId}`} >
-              <figure className="avatar-shopdetail">
-                <img
-                  className="rounded-circle img-fluid"
-                  src={shopDetails.shop.avatar.url}
-                  alt="Ảnh Đại Diện"
-                />
-              </figure>
-              <h2 className="shop-name ml-3 mb-0">
-                Cửa hàng: {shop.shopName}
-              </h2>
-            </Link>
-          )}
-        </div>
+
       <div
         style={{
           display: "flex",

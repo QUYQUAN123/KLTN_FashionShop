@@ -94,7 +94,7 @@ const Shop = () => {
           theme="light"
         />
         <h1 className="header-logo" >
-          {selectedCategoryName ? selectedCategoryName :category ? category : keyword ? `Tìm Kiếm "${keyword}"` : "VITASHOP"}
+          {selectedCategoryName ? selectedCategoryName :category ? category : keyword ? `Tìm Kiếm "${keyword}"` : "ShopGo"}
         </h1>
         <div className="shop-products-filter-container">
           <Filter
